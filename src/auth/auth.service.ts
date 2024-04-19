@@ -8,9 +8,9 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { User } from 'src/user/schema/user.schema';
-import { UserService } from 'src/user/user.service';
+import { LoginDto } from './dto/login.dto';
 import { RegisterAdminDto, UserRole } from './dto/register-admin.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -42,11 +42,8 @@ export class AuthService {
     }
   }
 
-  async loginUser(body: User) {
+  async loginUser(body: LoginDto) {
     try {
-      if (!body.email || !body.password)
-        throw new BadRequestException('Provide credentials!');
-
       const user = await this.usersService.findUserByEmail(body.email);
       if (!user) throw new NotFoundException('User not found');
 

@@ -16,6 +16,12 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
+  async getUserRoleById(id: string) {
+    const user = await this.userModel.findById(id).exec();
+    if (!user) throw new NotFoundException('User not found');
+    return user.role;
+  }
+
   async findUserByEmail(email: string) {
     const user = await this.userModel.findOne({ email });
     return user;
