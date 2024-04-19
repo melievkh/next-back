@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -21,8 +22,8 @@ export class ProductsController {
   }
 
   @Get()
-  async getAll() {
-    return this.productsService.getAll();
+  async getAll(@Query() query: any) {
+    return this.productsService.getAll(query);
   }
 
   @Patch(':id')

@@ -22,15 +22,28 @@ export class ProductsService {
     }
   }
 
-  async getAll() {
+  async getAll(query: any): Promise<{ results: Product[]; count: number }> {
     try {
-      const products = await this.productModel.find();
-      if (products.length === 0)
-        throw new NotFoundException('No products found');
-      return products;
+      const limit = query?.limit || 10;
+      const page = query?.page || 1;
+      const filter = query?.filter || {};
+
+      const totalItems = await this.productModel.countDocuments(filter);
+
+      const products = await this.productModel
+        .find(filter)
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .exec();
+
+      if (products.length === 0 && page !== 1) {
+        throw new NotFoundException('No products found on this page');
+      }
+
+      return { results: products, count: totalItems };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to get all products', 400);
+      throw new HttpException('Failed to get products', 400);
     }
   }
 
