@@ -18,7 +18,7 @@ export class ProductsService {
       const createdProduct = new this.productModel(createProductDto);
       return createdProduct.save();
     } catch (error) {
-      throw new HttpException('Failed to create product', 400);
+      throw new HttpException('Failed to create product', 500);
     }
   }
 
@@ -43,7 +43,7 @@ export class ProductsService {
       return { results: products, count: totalItems };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to get products', 400);
+      throw new HttpException('Failed to get products', 500);
     }
   }
 
@@ -59,7 +59,7 @@ export class ProductsService {
       return updatedProduct;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to update product', 400);
+      throw new HttpException('Failed to update product', 500);
     }
   }
 
@@ -71,7 +71,7 @@ export class ProductsService {
       return { message: 'Product deleted successfully' };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to delete product', 400);
+      throw new HttpException('Failed to delete product', 500);
     }
   }
 }

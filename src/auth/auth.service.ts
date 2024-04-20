@@ -38,7 +38,7 @@ export class AuthService {
       return { message: 'User created successfully' };
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
-      throw new HttpException('Failed to register user', 400);
+      throw new HttpException('Failed to register user', 500);
     }
   }
 
@@ -55,7 +55,7 @@ export class AuthService {
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to login user', 400);
+      throw new HttpException('Failed to login user', 500);
     }
   }
 

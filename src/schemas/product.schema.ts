@@ -22,6 +22,9 @@ export class Product {
   @Prop({ type: [String], required: true })
   images: string[];
 
+  @Prop({ required: true })
+  price: number;
+
   @Prop()
   description?: string;
 

@@ -32,6 +32,10 @@ export class CreateProductDto {
   @ArrayMaxSize(5, { message: 'Maximum 5 images allowed' })
   images: string[];
 
+  @IsNumber({}, { message: 'Price must be a number' })
+  @IsNotEmpty({ message: 'Price is required' })
+  price: number;
+
   @IsOptional()
   @IsString({ message: 'Description must be a string' })
   description?: string;

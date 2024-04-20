@@ -6,6 +6,7 @@ import appConfig from './config/app.config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProductsModule } from './products/products.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductsModule } from './products/products.module';
     MongooseModule.forRoot(process.env.DB_URI),
     UserModule,
     ProductsModule,
+    OrdersModule,
   ],
 })
 export class AppModule {}
