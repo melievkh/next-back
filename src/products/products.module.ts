@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { AccessTokenGuard } from 'src/auth/guards';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { Product, ProductSchema } from 'src/schemas';
-import { AccessTokenGuard } from 'src/auth/guards';
 
 @Module({
   imports: [

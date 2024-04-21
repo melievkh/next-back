@@ -6,6 +6,7 @@ export type OrderDocument = Order & Document;
 export enum OrderStatus {
   PENDING = 'pending',
   CONFIRMED = 'confirmed',
+  COMPLETED = 'completed',
   CANCELLED = 'cancelled',
 }
 
@@ -34,6 +35,9 @@ export class Order {
 
   @Prop({ default: Date.now })
   created_at: Date;
+
+  @Prop()
+  deliver_id?: Types.ObjectId;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

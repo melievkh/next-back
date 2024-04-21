@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { User, UserDocument } from '../schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RegisterAdminDto } from '../auth/dto/register-admin.dto';
+import { User, UserDocument } from '../schemas/user.schema';
 
 @Injectable()
 export class UserService {
@@ -12,7 +12,7 @@ export class UserService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async getAll(): Promise<User[]> {
+  async getAll() {
     return await this.userModel.find().exec();
   }
 
@@ -27,6 +27,11 @@ export class UserService {
     return user;
   }
 
+  async findUserById(id: string) {
+    const user = await this.userModel.findById(id).exec();
+    return user;
+  }
+
   async registerAdmin(user: RegisterAdminDto) {
     const newUser = new this.userModel(user);
     return await newUser.save();
@@ -37,11 +42,10 @@ export class UserService {
     return await newUser.save();
   }
 
-  async deleteUser(id: string): Promise<any> {
-    const user = await this.userModel.findOne({ _id: id }).exec();
+  async deleteUser(id: string) {
+    const user = await this.userModel.findByIdAndDelete(id).exec();
     if (!user) throw new NotFoundException('User not found');
 
-    await this.userModel.deleteOne({ _id: id }).exec();
-    return { message: 'User deleted successfully' };
+    return { message: 'user successfully successfully', success: true };
   }
 }

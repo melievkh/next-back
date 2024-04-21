@@ -1,23 +1,36 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { OrdersService } from './orders.service';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+
 import { CreateOrderDto } from './dto/create-order.dto';
-import { GetUser } from 'src/auth/decorators';
 import { GetAllOrdersQuery } from './types/order.types';
+import { OrdersService } from './orders.service';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(
-    @GetUser('sub') user_id: string,
-    @Body() createOrderDto: CreateOrderDto,
+  create(@Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.createOrder(createOrderDto);
+  }
+
+  @Patch('/confirm/:id')
+  confirmOrder(
+    @Param('id') order_id: string,
+    @Body() body: { deliver_id: string },
   ) {
-    return this.ordersService.createOrder(user_id, createOrderDto);
+    return this.ordersService.confirmOrder(order_id, body.deliver_id);
   }
 
   @Get()
-  async getAll(@Query() query: GetAllOrdersQuery) {
+  getAll(@Query() query: GetAllOrdersQuery) {
     return this.ordersService.getAll(query);
   }
 }

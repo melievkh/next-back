@@ -4,6 +4,9 @@ import { OrderStatus } from 'src/schemas/order.schema';
 
 export class CreateOrderDto {
   @IsMongoId()
+  user_id: Types.ObjectId;
+
+  @IsMongoId()
   product_id: Types.ObjectId;
 
   @IsInt()

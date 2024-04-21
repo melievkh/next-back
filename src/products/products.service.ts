@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { CreateProductDto } from './dto/create-product.dto';
+import { GetAllProductsQuery } from './types/product.types';
 import { Product, ProductDocument } from 'src/schemas';
 import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -16,13 +17,15 @@ export class ProductsService {
   async create(createProductDto: CreateProductDto) {
     try {
       const createdProduct = new this.productModel(createProductDto);
-      return createdProduct.save();
+      await createdProduct.save();
+
+      return { message: 'product successfully created', success: true };
     } catch (error) {
       throw new HttpException('Failed to create product', 500);
     }
   }
 
-  async getAll(query: any): Promise<{ results: Product[]; count: number }> {
+  async getAll(query: GetAllProductsQuery) {
     try {
       const limit = query?.limit || 10;
       const page = query?.page || 1;
@@ -56,7 +59,7 @@ export class ProductsService {
       );
       if (!updatedProduct) throw new NotFoundException('Product not found');
 
-      return updatedProduct;
+      return { message: 'product successfully updated', success: true };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException('Failed to update product', 500);
@@ -68,7 +71,7 @@ export class ProductsService {
       const productToDelete = await this.productModel.findByIdAndDelete(id);
       if (!productToDelete) throw new NotFoundException('Product not found');
 
-      return { message: 'Product deleted successfully' };
+      return { message: 'product successfully deleted' };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException('Failed to delete product', 500);

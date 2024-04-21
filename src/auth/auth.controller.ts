@@ -9,12 +9,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async registerUser(@Body() body: RegisterAdminDto) {
+  registerUser(@Body() body: RegisterAdminDto) {
     return this.authService.registerUser(body);
   }
 
   @Post('login')
-  async loginUser(@Body() body: LoginDto) {
+  loginUser(@Body() body: LoginDto) {
     return this.authService.loginUser(body);
   }
 }

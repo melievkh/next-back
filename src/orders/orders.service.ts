@@ -2,30 +2,68 @@ import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { Order, OrderDocument } from 'src/schemas';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { GetAllOrdersQuery } from './types/order.types';
+import { Order, OrderDocument, OrderStatus } from 'src/schemas';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectModel(Order.name)
     private readonly orderModel: Model<OrderDocument>,
+    private readonly userService: UserService,
   ) {}
 
-  async createOrder(user_id: string, orderValues: CreateOrderDto) {
-    const orderToCreate = new this.orderModel({
-      user_id,
-      ...orderValues,
-    });
-    const createdOrder = await orderToCreate.save();
+  async createOrder(createOrderValues: CreateOrderDto) {
+    try {
+      const createdOrder = new this.orderModel(createOrderValues);
+      await createdOrder.save();
 
-    return { result: createdOrder, status: 'success' };
+      return { message: 'order successfully created', success: true };
+    } catch (error) {
+      throw new HttpException('Failed to create order', 500);
+    }
   }
 
-  async getAll(
-    query: GetAllOrdersQuery,
-  ): Promise<{ result: Order[]; count: number }> {
+  async confirmOrder(order_id: string, deliver_id: string) {
+    try {
+      const isDeliverExist = await this.userService.findUserById(deliver_id);
+      if (!isDeliverExist && !deliver_id)
+        throw new NotFoundException('Deliver not found');
+
+      const order = await this.orderModel.findByIdAndUpdate(
+        order_id,
+        { deliver_id, status: OrderStatus.CONFIRMED },
+        { new: true },
+      );
+      if (!order) throw new NotFoundException('Order not found');
+
+      return { success: true, message: 'order successfully confirmed' };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException('Failed to confirm order', 500);
+    }
+  }
+
+  async completeOrder(order_id: string) {
+    try {
+      const order = await this.orderModel.findByIdAndUpdate(
+        order_id,
+        { status: OrderStatus.COMPLETED },
+        { new: true },
+      );
+
+      if (!order) throw new NotFoundException('Order not found');
+
+      return { success: true, message: 'order successfully completed' };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException('Failed to complete order', 500);
+    }
+  }
+
+  async getAll(query: GetAllOrdersQuery) {
     try {
       const limit = query?.limit || 10;
       const page = query?.page || 1;
