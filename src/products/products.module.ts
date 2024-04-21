@@ -1,16 +1,18 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { AccessTokenGuard } from 'src/auth/guards';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { Product, ProductSchema } from 'src/schemas';
+import { JwtService } from '@nestjs/jwt';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
+    UserModule,
   ],
   controllers: [ProductsController],
-  providers: [ProductsService, AccessTokenGuard],
+  providers: [ProductsService, JwtService],
 })
 export class ProductsModule {}

@@ -5,6 +5,7 @@ import { Order, OrderSchema } from 'src/schemas';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { UserModule } from 'src/user/user.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { UserModule } from 'src/user/user.module';
     UserModule,
   ],
   controllers: [OrdersController],
-  providers: [OrdersService],
+  providers: [OrdersService, JwtService],
 })
 export class OrdersModule {}

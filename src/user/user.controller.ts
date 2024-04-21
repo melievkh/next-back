@@ -10,8 +10,8 @@ import {
 
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserService } from './user.service';
+import { Roles } from 'src/auth/decorators';
 import { UserRole } from 'src/auth/dto/register-admin.dto';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
