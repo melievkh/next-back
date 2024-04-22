@@ -63,6 +63,22 @@ export class OrdersService {
     }
   }
 
+  async cancelOrder(order_id: string) {
+    try {
+      const order = await this.orderModel.findByIdAndUpdate(
+        order_id,
+        { status: OrderStatus.CANCELLED },
+        { new: true },
+      );
+
+      if (!order) throw new NotFoundException('Order not found');
+      return { success: true, message: 'order cancelled' };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException('Failed to cancel order', 500);
+    }
+  }
+
   async getAll(query: GetAllOrdersQuery) {
     try {
       const limit = query?.limit || 10;

@@ -1,10 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
-
-export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-}
+import { UserRole } from 'src/schemas';
 
 export class RegisterAdminDto {
   @IsNotEmpty()

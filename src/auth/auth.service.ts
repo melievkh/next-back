@@ -9,8 +9,9 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { LoginDto } from './dto/login.dto';
-import { RegisterAdminDto, UserRole } from './dto/register-admin.dto';
+import { RegisterAdminDto } from './dto/register-admin.dto';
 import { UserService } from 'src/user/user.service';
+import { UserRole } from 'src/schemas';
 
 @Injectable()
 export class AuthService {
