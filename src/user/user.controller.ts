@@ -11,7 +11,7 @@ import {
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
-import { Roles } from 'src/auth/decorators';
+import { GetUser, Roles } from 'src/auth/decorators';
 import { UserRole } from 'src/schemas';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
@@ -23,6 +23,11 @@ export class UserController {
   @Get()
   getAll() {
     return this.userService.getAll();
+  }
+
+  @Get('me')
+  getMe(@GetUser() id: string) {
+    return this.userService.getMe(id);
   }
 
   @Post('create')

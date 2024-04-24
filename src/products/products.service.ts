@@ -27,23 +27,24 @@ export class ProductsService {
 
   async getAll(query: GetAllProductsQuery) {
     try {
-      const limit = query?.limit || 10;
-      const page = query?.page || 1;
-      const filter = query?.filter || {};
+      console.log(query);
+      const { limit, page, ...filterOptions } = query;
+      const productLimit = +limit || 10;
+      const productPage = +page || 1;
 
-      const totalItems = await this.productModel.countDocuments(filter);
+      const totalItems = await this.productModel.countDocuments(filterOptions);
 
       const products = await this.productModel
-        .find(filter)
-        .limit(limit)
-        .skip((page - 1) * limit)
+        .find(filterOptions)
+        .limit(productLimit)
+        .skip((productPage - 1) * productLimit)
         .exec();
 
-      if (products.length === 0 && page !== 1) {
+      if (products.length === 0 && productPage !== 1) {
         throw new NotFoundException('No products found on this page');
       }
 
-      return { results: products, count: totalItems };
+      return { result: products, count: totalItems };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException('Failed to get products', 500);

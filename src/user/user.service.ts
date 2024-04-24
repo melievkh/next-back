@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -14,6 +14,18 @@ export class UserService {
 
   async getAll() {
     return await this.userModel.find().exec();
+  }
+
+  async getMe(id: string) {
+    try {
+      const user = await this.userModel.findById(id).exec();
+      if (!user) throw new NotFoundException('User not found');
+
+      return { result: user, success: true };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException('Failed to get user', 500);
+    }
   }
 
   async getUserRoleById(id: string) {
