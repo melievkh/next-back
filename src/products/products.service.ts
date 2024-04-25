@@ -21,21 +21,48 @@ export class ProductsService {
 
       return { message: 'product successfully created', success: true };
     } catch (error) {
-      throw new HttpException('Failed to create product', 500);
+      throw new HttpException(
+        `Failed to create product: ${error.message}`,
+        500,
+      );
     }
   }
 
   async getAll(query: GetAllProductsQuery) {
     try {
-      console.log(query);
-      const { limit, page, ...filterOptions } = query;
+      const { limit, page, code, sizes, colors, ...filterOptions } = query;
+
       const productLimit = +limit || 10;
       const productPage = +page || 1;
 
-      const totalItems = await this.productModel.countDocuments(filterOptions);
+      let sizesFilter = {};
+      let colorsFilter = {};
+      let codeFilter = {};
+
+      if (sizes && sizes.length > 0) {
+        sizesFilter = { sizes: { $in: sizes } };
+      }
+      if (colors && colors.length > 0) {
+        colorsFilter = { colors: { $in: colors } };
+      }
+      if (code) {
+        codeFilter = { code: { $regex: new RegExp(code, 'i') } };
+      }
+
+      const totalItems = await this.productModel.countDocuments({
+        ...filterOptions,
+        ...sizesFilter,
+        ...colorsFilter,
+        ...codeFilter,
+      });
 
       const products = await this.productModel
-        .find(filterOptions)
+        .find({
+          ...filterOptions,
+          ...sizesFilter,
+          ...colorsFilter,
+          ...codeFilter,
+        })
         .limit(productLimit)
         .skip((productPage - 1) * productLimit)
         .exec();
@@ -46,8 +73,9 @@ export class ProductsService {
 
       return { result: products, count: totalItems };
     } catch (error) {
+      console.log(error);
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to get products', 500);
+      throw new HttpException(`Failed to get products: ${error.message}`, 500);
     }
   }
 
@@ -63,7 +91,10 @@ export class ProductsService {
       return { message: 'product successfully updated', success: true };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to update product', 500);
+      throw new HttpException(
+        `Failed to update product: ${error.message}`,
+        500,
+      );
     }
   }
 
@@ -75,7 +106,10 @@ export class ProductsService {
       return { message: 'product successfully deleted' };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to delete product', 500);
+      throw new HttpException(
+        `Failed to delete product: ${error.message}`,
+        500,
+      );
     }
   }
 }

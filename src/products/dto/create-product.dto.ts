@@ -9,12 +9,12 @@ import {
   ArrayMaxSize,
   MaxLength,
 } from 'class-validator';
-import { ProductCategory } from 'src/schemas';
+import { ProductCategory, ProductColor, ProductSize } from 'src/schemas';
 
 export class CreateProductDto {
-  @IsNumber({}, { message: 'Code must be a number' })
+  @IsString({ message: 'Code must be a string' })
   @IsNotEmpty({ message: 'Code is required' })
-  code: number;
+  code: string;
 
   @IsString({ message: 'Title must be a string' })
   @IsNotEmpty({ message: 'Title is required' })
@@ -47,10 +47,12 @@ export class CreateProductDto {
   @IsNotEmpty({ message: 'Size is required' })
   @ArrayNotEmpty({ message: 'Sizes array must not be empty' })
   @ArrayUnique({ message: 'Sizes array must contain unique sizes' })
-  sizes: string[];
+  @IsEnum(ProductSize, { message: 'Invalid Size', each: true })
+  sizes: ProductSize[];
 
   @IsNotEmpty({ message: 'Color is required' })
   @ArrayNotEmpty({ message: 'Colors array must not be empty' })
   @ArrayUnique({ message: 'Colors array must contain unique colors' })
-  colors: string[];
+  @IsEnum(ProductColor, { message: 'Invalid color', each: true })
+  colors: ProductColor[];
 }

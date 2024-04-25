@@ -22,7 +22,7 @@ export class OrdersService {
 
       return { message: 'order successfully created', success: true };
     } catch (error) {
-      throw new HttpException('Failed to create order', 500);
+      throw new HttpException(`Failed to create order: ${error.message}`, 500);
     }
   }
 
@@ -42,7 +42,7 @@ export class OrdersService {
       return { success: true, message: 'order successfully confirmed' };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to confirm order', 500);
+      throw new HttpException(`Failed to confirm order: ${error.message}`, 500);
     }
   }
 
@@ -59,7 +59,10 @@ export class OrdersService {
       return { success: true, message: 'order successfully completed' };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to complete order', 500);
+      throw new HttpException(
+        `Failed to complete order: ${error.message}`,
+        500,
+      );
     }
   }
 
@@ -75,7 +78,7 @@ export class OrdersService {
       return { success: true, message: 'order cancelled' };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to cancel order', 500);
+      throw new HttpException(`Failed to cancel order: ${error.message}`, 500);
     }
   }
 
@@ -100,7 +103,7 @@ export class OrdersService {
       return { result: orders, count: totalItems };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to get orders', 500);
+      throw new HttpException(`Failed to get orders: ${error.message}`, 500);
     }
   }
 }

@@ -24,7 +24,7 @@ export class UserService {
       return { result: user, success: true };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to get user', 500);
+      throw new HttpException(`Failed to get user: ${error.message}`, 500);
     }
   }
 
