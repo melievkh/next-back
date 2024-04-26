@@ -16,7 +16,9 @@ import { OrdersModule } from './orders/orders.module';
       isGlobal: true,
       load: [appConfig],
     }),
-    MongooseModule.forRoot(process.env.DB_URI),
+    MongooseModule.forRoot(
+      'mongodb+srv://khushnudmeliev:melievkh@cluster0.a5ld2la.mongodb.net/next_db?retryWrites=true&w=majority&appName=Cluster0',
+    ),
     UserModule,
     ProductsModule,
     OrdersModule,

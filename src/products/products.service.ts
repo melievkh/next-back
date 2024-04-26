@@ -30,7 +30,8 @@ export class ProductsService {
 
   async getAll(query: GetAllProductsQuery) {
     try {
-      const { limit, page, code, sizes, colors, ...filterOptions } = query;
+      const { limit, page, code, sizes, colors, brand, ...filterOptions } =
+        query;
 
       const productLimit = +limit || 10;
       const productPage = +page || 1;
@@ -38,6 +39,7 @@ export class ProductsService {
       let sizesFilter = {};
       let colorsFilter = {};
       let codeFilter = {};
+      let brandFilter = {};
 
       if (sizes && sizes.length > 0) {
         sizesFilter = { sizes: { $in: sizes } };
@@ -48,12 +50,16 @@ export class ProductsService {
       if (code) {
         codeFilter = { code: { $regex: new RegExp(code, 'i') } };
       }
+      if (brand) {
+        brandFilter = { brand: { $regex: new RegExp(brand, 'i') } };
+      }
 
       const totalItems = await this.productModel.countDocuments({
         ...filterOptions,
         ...sizesFilter,
         ...colorsFilter,
         ...codeFilter,
+        ...brandFilter,
       });
 
       const products = await this.productModel
@@ -62,6 +68,7 @@ export class ProductsService {
           ...sizesFilter,
           ...colorsFilter,
           ...codeFilter,
+          ...brandFilter,
         })
         .limit(productLimit)
         .skip((productPage - 1) * productLimit)
@@ -73,9 +80,20 @@ export class ProductsService {
 
       return { result: products, count: totalItems };
     } catch (error) {
-      console.log(error);
       if (error instanceof NotFoundException) throw error;
       throw new HttpException(`Failed to get products: ${error.message}`, 500);
+    }
+  }
+
+  async getOne(_id: string) {
+    try {
+      const product = await this.productModel.findOne({ _id });
+      if (!product) throw new NotFoundException('Product not found');
+
+      return { result: product, success: true };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException(`Failed to get product: ${error.message}`, 500);
     }
   }
 
@@ -98,12 +116,16 @@ export class ProductsService {
     }
   }
 
-  async delete(id: string) {
+  async delete(ids: string[]) {
     try {
-      const productToDelete = await this.productModel.findByIdAndDelete(id);
-      if (!productToDelete) throw new NotFoundException('Product not found');
+      if (ids.length === 0)
+        throw new NotFoundException('No products to delete');
 
-      return { message: 'product successfully deleted' };
+      await this.productModel.deleteMany({
+        _id: { $in: ids },
+      });
+
+      return { message: 'product successfully deleted', success: true };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException(

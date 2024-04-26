@@ -38,12 +38,6 @@ export enum ProductColor {
   PURPLE = 'purple',
 }
 
-export enum ProductBrand {
-  NIKE = 'Nike',
-  ADIDAS = 'Adidas',
-  REEBOK = 'Reebok',
-}
-
 @Schema()
 export class Product {
   @Prop({ required: true, unique: true })
@@ -52,8 +46,8 @@ export class Product {
   @Prop({ required: true })
   title: string;
 
-  @Prop({ required: true, enum: ProductBrand })
-  brand: ProductBrand;
+  @Prop({ required: true })
+  brand: string;
 
   @Prop({ type: [String], required: true })
   images: string[];

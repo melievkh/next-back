@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
@@ -34,6 +33,11 @@ export class ProductsController {
     return this.productsService.getAll(query);
   }
 
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.productsService.getOne(id);
+  }
+
   @Roles(UserRole.SUPER_ADMIN)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
@@ -41,8 +45,8 @@ export class ProductsController {
   }
 
   @Roles(UserRole.SUPER_ADMIN)
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.productsService.delete(id);
+  @Post('delete')
+  delete(@Body() ids: string[]) {
+    return this.productsService.delete(ids);
   }
 }
