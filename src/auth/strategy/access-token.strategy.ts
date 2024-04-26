@@ -14,6 +14,10 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return payload;
+    try {
+      return payload;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
