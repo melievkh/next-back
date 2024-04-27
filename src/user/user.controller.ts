@@ -14,17 +14,19 @@ import { UserService } from './user.service';
 import { GetUser, Roles } from 'src/auth/decorators';
 import { UserRole } from 'src/schemas';
 
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(RolesGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AccessTokenGuard)
   @Roles(UserRole.SUPER_ADMIN)
   @Get()
   getAll() {
     return this.userService.getAll();
   }
 
+  @UseGuards(AccessTokenGuard)
   @Get('me')
   getMe(@GetUser() id: string) {
     return this.userService.getMe(id);
@@ -35,6 +37,7 @@ export class UserController {
     return this.userService.createUser(user);
   }
 
+  @UseGuards(AccessTokenGuard)
   @Roles(UserRole.SUPER_ADMIN)
   @Delete(':id')
   delete(@Param('id') id: string) {

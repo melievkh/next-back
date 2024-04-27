@@ -1,5 +1,12 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsPhoneNumber,
+  Matches,
+} from 'class-validator';
 import { UserRole } from 'src/schemas';
 
 export class RegisterAdminDto {
@@ -9,6 +16,11 @@ export class RegisterAdminDto {
 
   @IsNotEmpty()
   password: string;
+
+  @IsNotEmpty()
+  @IsPhoneNumber()
+  @Matches(/^\+998\d{9}$/, { message: 'Phone number is not valid' })
+  phone_number: string;
 
   @IsOptional()
   @Transform(({ value }) => ('' + value).toLowerCase())

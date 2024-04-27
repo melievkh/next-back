@@ -1,13 +1,14 @@
 import { IsMongoId, IsInt, Min, IsEnum, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
+import { ProductColor, ProductSize } from 'src/schemas';
 import { OrderStatus } from 'src/schemas/order.schema';
 
 export class CreateOrderDto {
   @IsMongoId()
-  user_id: Types.ObjectId;
+  order_by: Types.ObjectId;
 
   @IsMongoId()
-  product_id: Types.ObjectId;
+  product: Types.ObjectId;
 
   @IsInt()
   @Min(1)
@@ -22,8 +23,10 @@ export class CreateOrderDto {
   status: OrderStatus;
 
   @IsOptional()
-  color?: string;
+  @IsEnum(ProductColor)
+  color?: ProductColor;
 
   @IsOptional()
-  size?: string;
+  @IsEnum(ProductSize)
+  size?: ProductSize;
 }

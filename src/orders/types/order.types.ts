@@ -1,7 +1,7 @@
-import { CreateOrderDto } from '../dto/create-order.dto';
+import { OrderStatus } from 'src/schemas';
 
 export interface GetAllOrdersQuery {
   limit?: number;
   page?: number;
-  filter?: CreateOrderDto;
+  status: OrderStatus;
 }

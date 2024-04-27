@@ -32,11 +32,12 @@ export class AuthService {
 
       await this.usersService.registerAdmin({
         email: body.email,
-        role: UserRole.ADMIN,
+        phone_number: body.phone_number,
         password: hashedPassword,
+        role: UserRole.ADMIN,
       });
 
-      return { message: 'User created successfully' };
+      return { message: 'User created successfully', success: true };
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
       throw new HttpException('Failed to register user', 500);

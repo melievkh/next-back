@@ -1,6 +1,6 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { GetAllProductsQuery } from './types/product.types';
@@ -83,6 +83,11 @@ export class ProductsService {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException(`Failed to get products: ${error.message}`, 500);
     }
+  }
+
+  async findProductById(id: Types.ObjectId) {
+    const product = await this.productModel.findById(id).exec();
+    return product;
   }
 
   async getOne(_id: string) {

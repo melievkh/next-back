@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
+  Matches,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -18,7 +19,8 @@ export class CreateUserDto {
   @IsOptional()
   username: string;
 
+  @IsNotEmpty()
   @IsPhoneNumber()
-  @IsOptional()
+  @Matches(/^\+998\d{9}$/, { message: 'Phone number is not valid' })
   phone_number: string;
 }

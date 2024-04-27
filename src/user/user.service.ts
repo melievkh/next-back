@@ -1,6 +1,6 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { RegisterAdminDto } from '../auth/dto/register-admin.dto';
@@ -13,7 +13,9 @@ export class UserService {
   ) {}
 
   async getAll() {
-    return await this.userModel.find().exec();
+    const users = await this.userModel.find().exec();
+
+    return { result: users, count: users.length };
   }
 
   async getMe(id: string) {
@@ -39,7 +41,7 @@ export class UserService {
     return user;
   }
 
-  async findUserById(id: string) {
+  async findUserById(id: Types.ObjectId) {
     const user = await this.userModel.findById(id).exec();
     return user;
   }
@@ -50,8 +52,20 @@ export class UserService {
   }
 
   async createUser(user: CreateUserDto) {
-    const newUser = new this.userModel(user);
-    return await newUser.save();
+    try {
+      const existingUser = await this.userModel.findOne({
+        telegram_id: user.telegram_id,
+      });
+      if (existingUser) throw new NotFoundException('User already exists');
+
+      const userToCreate = new this.userModel(user);
+      const newUser = await userToCreate.save();
+
+      return { result: newUser, success: true };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException(`Failed to create user: ${error.message}`, 500);
+    }
   }
 
   async deleteUser(id: string) {
