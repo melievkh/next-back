@@ -14,6 +14,9 @@ export enum OrderStatus {
 
 @Schema()
 export class Order {
+  @Prop({ required: true })
+  order_number: string;
+
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   order_by: Types.ObjectId;
 

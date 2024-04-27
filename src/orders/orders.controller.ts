@@ -14,7 +14,7 @@ import {
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { GetAllOrdersQuery } from './types/order.types';
-import { Roles } from 'src/auth/decorators';
+import { GetUser, Roles } from 'src/auth/decorators';
 import { OrdersService } from './orders.service';
 import { UserRole } from 'src/schemas';
 
@@ -29,24 +29,24 @@ export class OrdersController {
   }
 
   @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
+  @Get()
+  getAll(@Query() query: GetAllOrdersQuery) {
+    return this.ordersService.getAll(query);
+  }
+
+  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @Patch('/confirm/:id')
   confirmOrder(
     @Param('id') order_id: string,
-    @Body() body: { deliver: Types.ObjectId },
+    @GetUser() deliver: Types.ObjectId,
   ) {
-    return this.ordersService.confirmOrder(order_id, body.deliver);
+    return this.ordersService.confirmOrder(order_id, deliver);
   }
 
   @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @Patch('/complete/:id')
   completeOrder(@Param('id') order_id: string) {
     return this.ordersService.completeOrder(order_id);
-  }
-
-  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
-  @Get()
-  getAll(@Query() query: GetAllOrdersQuery) {
-    return this.ordersService.getAll(query);
   }
 
   @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)

@@ -25,7 +25,12 @@ export class OrdersService {
       const foundProduct = await this.productService.findProductById(product);
       if (!foundProduct) throw new NotFoundException('Product not found');
 
-      const createdOrder = new this.orderModel(createOrderValues);
+      const orderNumber = await this.generateUniqueOrderNumber();
+
+      const createdOrder = new this.orderModel({
+        ...createOrderValues,
+        order_number: orderNumber,
+      });
       await createdOrder.save();
 
       return { message: 'order successfully created', success: true };
@@ -41,9 +46,11 @@ export class OrdersService {
       const page = +query.page || 1;
       const skip = (page - 1) * limit;
 
+      const filter = query.status ? { status: query.status } : {};
+
       const totalItems = await this.orderModel.countDocuments(query);
       const orders = await this.orderModel
-        .find(query)
+        .find(filter)
         .limit(limit)
         .skip(skip)
         .populate({
@@ -133,5 +140,22 @@ export class OrdersService {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException(`Failed to delete order: ${error.message}`, 500);
     }
+  }
+
+  async generateUniqueOrderNumber(): Promise<string> {
+    let orderNumber: string;
+    let isUnique = false;
+
+    while (!isUnique) {
+      orderNumber = Math.floor(10000000 + Math.random() * 90000000)
+        .toString()
+        .substring(0, 8);
+      const existingOrder = await this.orderModel
+        .findOne({ order_number: orderNumber })
+        .exec();
+      if (!existingOrder) isUnique = true;
+    }
+
+    return orderNumber;
   }
 }
