@@ -42,16 +42,29 @@ export class OrdersService {
 
   async getAll(query: GetAllOrdersQuery) {
     try {
-      const limit = +query.limit || 20;
-      const page = +query.page || 1;
-      const skip = (page - 1) * limit;
+      const { limit, page, order_number, ...filterOptions } = query;
+      const orderLimit = +limit || 20;
+      const orderPage = +page || 1;
+      const skip = (orderPage - 1) * orderLimit;
 
-      const filter = query.status ? { status: query.status } : {};
+      let orderNumberFilter = {};
+      if (order_number) {
+        orderNumberFilter = {
+          order_number: { $regex: new RegExp(order_number, 'i') },
+        };
+      }
 
-      const totalItems = await this.orderModel.countDocuments(query);
+      const totalItems = await this.orderModel.countDocuments({
+        ...filterOptions,
+        ...orderNumberFilter,
+      });
+
       const orders = await this.orderModel
-        .find(filter)
-        .limit(limit)
+        .find({
+          ...filterOptions,
+          ...orderNumberFilter,
+        })
+        .limit(orderLimit)
         .skip(skip)
         .populate({
           path: 'order_by',
@@ -59,7 +72,7 @@ export class OrdersService {
         })
         .populate({
           path: 'product',
-          select: 'code price',
+          select: 'code price title brand',
         })
         .populate({
           path: 'deliver',

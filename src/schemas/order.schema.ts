@@ -26,9 +26,6 @@ export class Order {
   @Prop({ type: Number, required: true, default: 1 })
   quantity: number;
 
-  @Prop({ required: true })
-  price: number;
-
   @Prop({ required: true, enum: OrderStatus, default: OrderStatus.PENDING })
   status: OrderStatus;
 

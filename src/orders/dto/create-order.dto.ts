@@ -14,10 +14,6 @@ export class CreateOrderDto {
   @Min(1)
   quantity: number;
 
-  @IsInt()
-  @Min(0)
-  price: number;
-
   @IsEnum(OrderStatus)
   @IsOptional()
   status: OrderStatus;
