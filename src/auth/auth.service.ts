@@ -11,7 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { RegisterAdminDto } from './dto/register-admin.dto';
 import { UserService } from 'src/user/user.service';
-import { UserRole } from 'src/schemas';
+import { UserRole } from 'src/db/schemas';
 
 @Injectable()
 export class AuthService {
@@ -53,7 +53,7 @@ export class AuthService {
       if (!isMatch) throw new BadRequestException('Invalid password');
 
       const accessToken = await this.getToken(user._id.toHexString());
-      return { accessToken, userId: user._id };
+      return { accessToken, userId: user._id, userRole: user.role };
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
       if (error instanceof NotFoundException) throw error;

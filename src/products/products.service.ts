@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { GetAllProductsQuery } from './types/product.types';
-import { Product, ProductDocument } from 'src/schemas';
+import { Product, ProductDocument } from 'src/db/schemas';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()

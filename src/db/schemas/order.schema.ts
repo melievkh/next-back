@@ -40,6 +40,15 @@ export class Order {
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   deliver?: Types.ObjectId;
+
+  @Prop()
+  address: string;
+
+  @Prop()
+  address_longitude: number;
+
+  @Prop()
+  address_latitude: number;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

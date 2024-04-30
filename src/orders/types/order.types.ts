@@ -1,4 +1,4 @@
-import { OrderStatus } from 'src/schemas';
+import { OrderStatus } from 'src/db/schemas';
 
 export interface GetAllOrdersQuery {
   limit: number;

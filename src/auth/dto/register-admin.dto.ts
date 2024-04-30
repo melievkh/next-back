@@ -7,7 +7,7 @@ import {
   IsPhoneNumber,
   Matches,
 } from 'class-validator';
-import { UserRole } from 'src/schemas';
+import { UserRole } from 'src/db/schemas';
 
 export class RegisterAdminDto {
   @IsNotEmpty()

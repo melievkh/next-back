@@ -15,7 +15,7 @@ import { GetAllProductsQuery } from './types/product.types';
 import { ProductsService } from './products.service';
 import { Roles } from 'src/auth/decorators';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { UserRole } from 'src/schemas';
+import { UserRole } from 'src/db/schemas';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
 @Controller('products')

@@ -16,7 +16,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { GetAllOrdersQuery } from './types/order.types';
 import { GetUser, Roles } from 'src/auth/decorators';
 import { OrdersService } from './orders.service';
-import { UserRole } from 'src/schemas';
+import { UserRole } from 'src/db/schemas';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
 @Controller('orders')

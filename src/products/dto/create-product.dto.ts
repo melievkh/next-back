@@ -9,7 +9,7 @@ import {
   ArrayMaxSize,
   MaxLength,
 } from 'class-validator';
-import { ProductCategory, ProductColor, ProductSize } from 'src/schemas';
+import { ProductCategory, ProductColor, ProductSize } from 'src/db/schemas';
 
 export class CreateProductDto {
   @IsString({ message: 'Code must be a string' })

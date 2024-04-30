@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 
 import { CreateOrderDto } from './dto/create-order.dto';
 import { GetAllOrdersQuery } from './types/order.types';
-import { Order, OrderDocument, OrderStatus } from 'src/schemas';
+import { Order, OrderDocument, OrderStatus } from 'src/db/schemas';
 import { UserService } from 'src/user/user.service';
 import { ProductsService } from 'src/products/products.service';
 

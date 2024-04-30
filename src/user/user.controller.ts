@@ -12,7 +12,7 @@ import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { GetUser, Roles } from 'src/auth/decorators';
-import { UserRole } from 'src/schemas';
+import { UserRole } from 'src/db/schemas';
 
 @UseGuards(RolesGuard)
 @Controller('user')
