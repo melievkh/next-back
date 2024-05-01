@@ -19,12 +19,12 @@ export class AuthService {
     private readonly storeService: StoreService,
   ) {}
 
-  async login(body: LoginDto) {
+  async login(loginDto: LoginDto) {
     try {
-      const store = await this.storeService.getStoreByEmail(body.email);
+      const store = await this.storeService.getStoreByEmail(loginDto.email);
       if (!store) throw new NotFoundException('Store not found');
 
-      const isMatch = await bcrypt.compare(body.password, store.password);
+      const isMatch = await bcrypt.compare(loginDto.password, store.password);
       if (!isMatch) throw new BadRequestException('Invalid password');
 
       const tokens = await this.getToken(store.id);

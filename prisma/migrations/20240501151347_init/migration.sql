@@ -5,14 +5,18 @@ CREATE TYPE "store_category" AS ENUM ('outfits', 'other');
 CREATE TYPE "store_role" AS ENUM ('admin', 'store');
 
 -- CreateEnum
+CREATE TYPE "store_type" AS ENUM ('online', 'physical');
+
+-- CreateEnum
 CREATE TYPE "outfits_category" AS ENUM ('cap', 'pants', 'shoes', 'sneakers', 't_shirts', 'other');
 
 -- CreateEnum
-CREATE TYPE "order_status" AS ENUM ('pending', 'accepted', 'completed', 'deleted');
+CREATE TYPE "order_status" AS ENUM ('accepted', 'cancelled', 'completed', 'pending');
 
 -- CreateTable
 CREATE TABLE "store" (
     "id" TEXT NOT NULL,
+    "available" BOOLEAN NOT NULL DEFAULT true,
     "category" "store_category"[],
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "email" TEXT NOT NULL,
@@ -21,6 +25,7 @@ CREATE TABLE "store" (
     "phone_number" TEXT[],
     "role" "store_role" NOT NULL DEFAULT 'store',
     "storename" VARCHAR(250) NOT NULL,
+    "type" "store_type" NOT NULL DEFAULT 'online',
     "address_id" TEXT,
 
     CONSTRAINT "store_pkey" PRIMARY KEY ("id")
@@ -29,9 +34,9 @@ CREATE TABLE "store" (
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "firstname" TEXT,
+    "firstname" TEXT NOT NULL,
     "phone_number" TEXT,
-    "telegram_dd" TEXT,
+    "telegram_id" TEXT NOT NULL,
     "username" TEXT,
     "address_id" TEXT,
 
@@ -43,14 +48,14 @@ CREATE TABLE "outfits" (
     "id" TEXT NOT NULL,
     "brand" TEXT,
     "category" "outfits_category" NOT NULL DEFAULT 'other',
-    "color" TEXT[],
+    "colors" TEXT[],
     "code" TEXT NOT NULL,
     "description" TEXT,
     "image_urls" TEXT[],
     "image_main" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
-    "size" TEXT[],
+    "sizes" TEXT[],
     "store_id" TEXT NOT NULL,
 
     CONSTRAINT "outfits_pkey" PRIMARY KEY ("id")
@@ -60,9 +65,12 @@ CREATE TABLE "outfits" (
 CREATE TABLE "order" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "order_number" INTEGER NOT NULL,
+    "order_number" SERIAL NOT NULL,
     "status" "order_status" NOT NULL DEFAULT 'pending',
     "order_item_details" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    "latitude" INTEGER NOT NULL,
+    "longitude" INTEGER NOT NULL,
     "order_item_id" TEXT NOT NULL,
     "store_id" TEXT NOT NULL,
     "order_by_id" TEXT NOT NULL,
@@ -79,6 +87,7 @@ CREATE TABLE "address" (
     "district" VARCHAR(100),
     "latitude" INTEGER NOT NULL,
     "longitude" INTEGER NOT NULL,
+    "street" VARCHAR(100),
 
     CONSTRAINT "address_pkey" PRIMARY KEY ("id")
 );

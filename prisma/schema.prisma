@@ -48,7 +48,7 @@ model outfits {
   brand       String?
   category    outfits_category @default(other)
   colors      String[]
-  code        String           @unique
+  code        String
   description String?
   image_urls  String[]
   image_main  String
@@ -125,8 +125,8 @@ enum outfits_category {
 }
 
 enum order_status {
-  pending
   accepted
+  cancelled
   completed
-  deleted
+  pending
 }

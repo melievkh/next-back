@@ -66,6 +66,7 @@ export class OutfitsService {
         createOutfitDto.code,
         store_id,
       );
+      console.log(existingOutfit);
       if (existingOutfit)
         throw new BadRequestException('Outfit already exists with this code');
 
@@ -82,6 +83,7 @@ export class OutfitsService {
 
       return { message: 'Outfit created successfully', success: true };
     } catch (error) {
+      console.log(error);
       if (error instanceof BadRequestException) throw error;
       throw new HttpException('Failed to create outfit', 500);
     }
@@ -148,6 +150,7 @@ export class OutfitsService {
     const outfit = await this.prismaService.outfits.findFirst({
       where: { code, store: { id: store_id } },
     });
+
     return outfit;
   }
 }

@@ -1,11 +1,11 @@
 export enum OrderStatus {
   ACCEPTED = 'accepted',
+  CANCELLED = 'cancelled',
   COMPLETED = 'completed',
-  CANCELED = 'canceled',
   PENDING = 'pending',
 }
 
-export interface GetAllOrdersQuery {
+export interface GetStoreOrdersQuery {
   limit: number;
   page: number;
   status: OrderStatus;

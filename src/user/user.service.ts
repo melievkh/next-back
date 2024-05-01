@@ -1,6 +1,12 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -19,7 +25,7 @@ export class UserService {
 
   async getUser(id: string) {
     try {
-      const user = await this.prismaService.users.findUnique({ where: { id } });
+      const user = await this.getUserById(id);
       if (!user) throw new NotFoundException('User not found');
 
       return { result: user, success: true };
@@ -27,6 +33,19 @@ export class UserService {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException(`Failed to get user: ${error.message}`, 500);
     }
+  }
+
+  async createUser(createUserDto: CreateUserDto) {
+    const existingUser = await this.prismaService.users.findFirst({
+      where: { telegram_id: createUserDto.telegram_id },
+    });
+    if (existingUser) throw new BadRequestException('User already exists');
+
+    await this.prismaService.users.create({
+      data: createUserDto,
+    });
+
+    return { message: 'User created successfully', success: true };
   }
 
   async deleteUser(id: string) {

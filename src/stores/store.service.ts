@@ -8,6 +8,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import CreateStoreDto from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
+import { Role } from 'src/user/types/user.types';
 
 @Injectable()
 export class StoreService {
@@ -30,6 +31,18 @@ export class StoreService {
     if (!store) throw new NotFoundException('Store not found');
 
     return { result: store, success: true };
+  }
+
+  async getMe(id: string) {
+    try {
+      const store = await this.getStoreById(id);
+      if (!store) throw new NotFoundException('Store not found');
+
+      return { result: store, success: true };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException('Failed to get store', 500);
+    }
   }
 
   async getStoreById(id: string) {
@@ -58,17 +71,18 @@ export class StoreService {
       if (store) throw new BadRequestException('Store already exists');
 
       const hashedPassword = await bcrypt.hash(createStoreDto.password, 10);
-      const createdStore = await this.prismaService.store.create({
+      await this.prismaService.store.create({
         data: {
           password: hashedPassword,
           storename: createStoreDto.storename,
           email: createStoreDto.email,
           phone_number: createStoreDto.phone_number,
           category: createStoreDto.category,
+          role: Role.STORE,
         },
       });
 
-      return { result: createdStore, success: true };
+      return { message: 'store created successfully', success: true };
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
       throw new HttpException('Failed to register store', 500);
