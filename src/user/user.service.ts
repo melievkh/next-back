@@ -1,26 +1,25 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { RegisterAdminDto } from '../auth/dto/register-admin.dto';
-import { User, UserDocument } from '../db/schemas/user.schema';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async getAll() {
-    const users = await this.userModel.find().exec();
+  async getUsers() {
+    const users = await this.prismaService.users.findMany();
 
     return { result: users, count: users.length };
   }
 
-  async getMe(id: string) {
+  async getUserById(id: string) {
+    const user = await this.prismaService.users.findUnique({ where: { id } });
+    return user;
+  }
+
+  async getUser(id: string) {
     try {
-      const user = await this.userModel.findById(id).exec();
+      const user = await this.prismaService.users.findUnique({ where: { id } });
       if (!user) throw new NotFoundException('User not found');
 
       return { result: user, success: true };
@@ -30,47 +29,11 @@ export class UserService {
     }
   }
 
-  async getUserRoleById(id: string) {
-    const user = await this.userModel.findById(id).exec();
-    if (!user) throw new NotFoundException('User not found');
-    return user.role;
-  }
-
-  async findUserByEmail(email: string) {
-    const user = await this.userModel.findOne({ email });
-    return user;
-  }
-
-  async findUserById(id: Types.ObjectId) {
-    const user = await this.userModel.findById(id).exec();
-    return user;
-  }
-
-  async registerAdmin(user: RegisterAdminDto) {
-    const newUser = new this.userModel(user);
-    return await newUser.save();
-  }
-
-  async createUser(user: CreateUserDto) {
-    try {
-      const existingUser = await this.userModel.findOne({
-        telegram_id: user.telegram_id,
-      });
-      if (existingUser) throw new NotFoundException('User already exists');
-
-      const userToCreate = new this.userModel(user);
-      const newUser = await userToCreate.save();
-
-      return { result: newUser, success: true };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new HttpException(`Failed to create user: ${error.message}`, 500);
-    }
-  }
-
   async deleteUser(id: string) {
-    const user = await this.userModel.findByIdAndDelete(id).exec();
+    const user = await this.getUserById(id);
     if (!user) throw new NotFoundException('User not found');
+
+    await this.prismaService.users.delete({ where: { id } });
 
     return { message: 'user successfully successfully', success: true };
   }

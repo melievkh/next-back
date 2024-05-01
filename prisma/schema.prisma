@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// MODELS
+
+model store {
+  id           String           @id @default(uuid())
+  available    Boolean          @default(true)
+  category     store_category[]
+  created_at   DateTime         @default(now())
+  email        String           @unique
+  password     String
+  photo_url    String?          @db.VarChar(250)
+  phone_number String[]
+  role         store_role       @default(store)
+  storename    String           @db.VarChar(250)
+  type         store_type       @default(online)
+
+  address_id String?
+  address    address?  @relation(fields: [address_id], references: [id])
+  outfits    outfits[]
+  order      order[]
+
+  @@index([category])
+  @@index([email])
+}
+
+model users {
+  id           String  @id @default(uuid())
+  firstname    String
+  phone_number String?
+  telegram_id  String
+  username     String?
+
+  address_id String?
+  address    address? @relation(fields: [address_id], references: [id])
+  order      order[]
+}
+
+model outfits {
+  id          String           @id @default(uuid())
+  brand       String?
+  category    outfits_category @default(other)
+  colors      String[]
+  code        String           @unique
+  description String?
+  image_urls  String[]
+  image_main  String
+  name        String
+  price       Float
+  sizes       String[]
+
+  store_id String
+  store    store   @relation(fields: [store_id], references: [id])
+  order    order[]
+
+  @@index([category])
+  @@index([code])
+}
+
+model order {
+  id                 String       @id @default(uuid())
+  created_at         DateTime     @default(now())
+  order_number       Int          @default(autoincrement())
+  status             order_status @default(pending)
+  order_item_details String       @db.Text()
+  address            String       @db.Text()
+  latitude           Int
+  longitude          Int
+
+  order_item_id String
+  order_item    outfits @relation(fields: [order_item_id], references: [id])
+  store_id      String
+  store         store   @relation(fields: [store_id], references: [id])
+  order_by_id   String
+  order_by      users   @relation(fields: [order_by_id], references: [id])
+
+  @@index([order_number])
+  @@index([status])
+}
+
+model address {
+  id          String  @id @default(uuid())
+  city        String? @db.VarChar(100)
+  country     String? @db.VarChar(100)
+  description String? @db.VarChar(250)
+  district    String? @db.VarChar(100)
+  latitude    Int
+  longitude   Int
+  street      String? @db.VarChar(100)
+  store       store[]
+  users       users[]
+}
+
+// ENUMS
+
+enum store_category {
+  outfits
+  other
+}
+
+enum store_role {
+  admin
+  store
+}
+
+enum store_type {
+  online
+  physical
+}
+
+enum outfits_category {
+  cap
+  pants
+  shoes
+  sneakers
+  t_shirts
+  other
+}
+
+enum order_status {
+  pending
+  accepted
+  completed
+  deleted
+}

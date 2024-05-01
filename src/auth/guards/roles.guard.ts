@@ -6,13 +6,13 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
+import { StoreService } from 'src/stores/store.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private userService: UserService,
+    private storeService: StoreService,
     private jwtService: JwtService,
   ) {}
 
@@ -28,9 +28,9 @@ export class RolesGuard implements CanActivate {
     const token = request.headers.authorization.split(' ')[1];
     if (!token) throw new UnauthorizedException();
     const decoded = this.jwtService.decode(token);
-    const userId = decoded.sub;
-    const userRole = await this.userService.getUserRoleById(userId);
+    const storeId = decoded.sub;
+    const role = await this.storeService.getStoreRoleById(storeId);
 
-    return roles.includes(userRole);
+    return roles.includes(role);
   }
 }

@@ -1,12 +1,12 @@
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 
 import appConfig from './config/app.config';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
+import { OutfitsModule } from './outfits/outfits.module';
+import { StoreModule } from './stores/store.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -16,12 +16,10 @@ import { OrdersModule } from './orders/orders.module';
       isGlobal: true,
       load: [appConfig],
     }),
-    MongooseModule.forRoot(
-      'mongodb+srv://khushnudmeliev:melievkh@cluster0.a5ld2la.mongodb.net/next_db?retryWrites=true&w=majority&appName=Cluster0',
-    ),
-    UserModule,
-    ProductsModule,
+    OutfitsModule,
     OrdersModule,
+    StoreModule,
+    UserModule,
   ],
 })
 export class AppModule {}

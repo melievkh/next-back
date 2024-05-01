@@ -1,28 +1,27 @@
-import { IsMongoId, IsInt, Min, IsEnum, IsOptional } from 'class-validator';
-import { Types } from 'mongoose';
-import { ProductColor, ProductSize } from 'src/db/schemas';
-import { OrderStatus } from 'src/db/schemas/order.schema';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderDto {
-  @IsMongoId()
-  order_by: Types.ObjectId;
+  @IsNotEmpty()
+  @IsString()
+  order_item_details: string;
 
-  @IsMongoId()
-  product: Types.ObjectId;
+  @IsNotEmpty()
+  @IsString()
+  product_code: string;
 
-  @IsInt()
-  @Min(1)
-  quantity: number;
+  @IsNotEmpty()
+  @IsString()
+  store_id: string;
 
-  @IsEnum(OrderStatus)
-  @IsOptional()
-  status: OrderStatus;
+  @IsNotEmpty()
+  @IsString()
+  address: string;
 
-  @IsOptional()
-  @IsEnum(ProductColor)
-  color?: ProductColor;
+  @IsNotEmpty()
+  @IsNumber()
+  latitude: number;
 
-  @IsOptional()
-  @IsEnum(ProductSize)
-  size?: ProductSize;
+  @IsNotEmpty()
+  @IsNumber()
+  longitude: number;
 }

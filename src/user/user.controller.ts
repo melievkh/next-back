@@ -1,18 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
-import { CreateUserDto } from './dto/create-user.dto';
+import { GetMe, Roles } from 'src/auth/decorators';
+import { Role } from './types/user.types';
 import { UserService } from './user.service';
-import { GetUser, Roles } from 'src/auth/decorators';
-import { UserRole } from 'src/db/schemas';
 
 @UseGuards(RolesGuard)
 @Controller('user')
@@ -20,25 +11,20 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @UseGuards(AccessTokenGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(Role.ADMIN)
   @Get()
-  getAll() {
-    return this.userService.getAll();
+  getUsers() {
+    return this.userService.getUsers();
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('me')
-  getMe(@GetUser() id: string) {
-    return this.userService.getMe(id);
-  }
-
-  @Post('create')
-  createUser(@Body() user: CreateUserDto) {
-    return this.userService.createUser(user);
+  getMe(@GetMe() id: string) {
+    return this.userService.getUser(id);
   }
 
   @UseGuards(AccessTokenGuard)
-  @Roles(UserRole.SUPER_ADMIN)
+  @Roles(Role.ADMIN)
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.userService.deleteUser(id);

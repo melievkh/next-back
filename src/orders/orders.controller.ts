@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import {
   Body,
   Controller,
@@ -14,50 +13,33 @@ import {
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { GetAllOrdersQuery } from './types/order.types';
-import { GetUser, Roles } from 'src/auth/decorators';
+import { GetMe, Roles } from 'src/auth/decorators';
 import { OrdersService } from './orders.service';
-import { UserRole } from 'src/db/schemas';
+import { Role } from 'src/user/types/user.types';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
+@Roles(Role.STORE)
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.createOrder(createOrderDto);
+  create(@GetMe() order_by_id: string, @Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.createOrder(order_by_id, createOrderDto);
   }
 
-  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @Get()
-  getAll(@Query() query: GetAllOrdersQuery) {
-    return this.ordersService.getAll(query);
-  }
+  getAll(@Query() query: GetAllOrdersQuery) {}
 
-  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @Patch('/confirm/:id')
-  confirmOrder(
-    @Param('id') order_id: string,
-    @GetUser() deliver: Types.ObjectId,
-  ) {
-    return this.ordersService.confirmOrder(order_id, deliver);
-  }
+  confirmOrder(@Param('id') order_id: string, @GetMe() store_id: string) {}
 
-  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @Patch('/complete/:id')
-  completeOrder(@Param('id') order_id: string) {
-    return this.ordersService.completeOrder(order_id);
-  }
+  completeOrder(@Param('id') order_id: string) {}
 
-  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @Patch('/cancel/:id')
-  cancelOrder(@Param('id') order_id: string) {
-    return this.ordersService.cancelOrder(order_id);
-  }
+  cancelOrder(@Param('id') order_id: string) {}
 
-  @Roles(UserRole.SUPER_ADMIN)
   @Delete('/:id')
-  delete(@Param('id') id: string) {
-    return this.ordersService.delete(id);
-  }
+  delete(@Param('id') id: string) {}
 }

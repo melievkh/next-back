@@ -9,11 +9,11 @@ import {
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  telegram_id: string;
+  firstname: string;
 
   @IsString()
   @IsNotEmpty()
-  first_name: string;
+  telegram_id: string;
 
   @IsString()
   @IsOptional()

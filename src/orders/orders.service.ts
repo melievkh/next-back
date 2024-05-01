@@ -1,174 +1,40 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
 
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { GetAllOrdersQuery } from './types/order.types';
-import { Order, OrderDocument, OrderStatus } from 'src/db/schemas';
-import { UserService } from 'src/user/user.service';
-import { ProductsService } from 'src/products/products.service';
+import { OutfitsService } from 'src/outfits/outfits.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
-    @InjectModel(Order.name)
-    private readonly orderModel: Model<OrderDocument>,
-    private readonly userService: UserService,
-    private readonly productService: ProductsService,
+    private readonly outfitService: OutfitsService,
+    private readonly prismaService: PrismaService,
   ) {}
 
-  async createOrder(createOrderValues: CreateOrderDto) {
+  async createOrder(order_by_id: string, createOrderDto: CreateOrderDto) {
     try {
-      const { order_by, product } = createOrderValues;
-      const user = await this.userService.findUserById(order_by);
-      if (!user) throw new NotFoundException('User not found');
-      const foundProduct = await this.productService.findProductById(product);
-      if (!foundProduct) throw new NotFoundException('Product not found');
+      const { product_code, store_id, ...rest } = createOrderDto;
+      const product = await this.outfitService.getOutfitByCode(
+        product_code,
+        store_id,
+      );
+      console.log(product);
+      if (!product) throw new NotFoundException('product not found');
 
-      const orderNumber = await this.generateUniqueOrderNumber();
-
-      const createdOrder = new this.orderModel({
-        ...createOrderValues,
-        order_number: orderNumber,
-      });
-      await createdOrder.save();
-
-      return { message: 'order successfully created', success: true };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new HttpException(`Failed to create order: ${error.message}`, 500);
-    }
-  }
-
-  async getAll(query: GetAllOrdersQuery) {
-    try {
-      const { limit, page, order_number, ...filterOptions } = query;
-      const orderLimit = +limit || 20;
-      const orderPage = +page || 1;
-      const skip = (orderPage - 1) * orderLimit;
-
-      let orderNumberFilter = {};
-      if (order_number) {
-        orderNumberFilter = {
-          order_number: { $regex: new RegExp(order_number, 'i') },
-        };
-      }
-
-      const totalItems = await this.orderModel.countDocuments({
-        ...filterOptions,
-        ...orderNumberFilter,
+      await this.prismaService.order.create({
+        data: {
+          order_by_id,
+          order_item_id: product.id,
+          store_id,
+          ...rest,
+        },
       });
 
-      const orders = await this.orderModel
-        .find({
-          ...filterOptions,
-          ...orderNumberFilter,
-        })
-        .limit(orderLimit)
-        .skip(skip)
-        .populate({
-          path: 'order_by',
-          select: 'phone_number',
-        })
-        .populate({
-          path: 'product',
-          select: 'code price title brand',
-        })
-        .populate({
-          path: 'deliver',
-          select: 'phone_number',
-        })
-        .exec();
-
-      return { result: orders, count: totalItems };
+      return { message: 'Order created successfully', success: true };
     } catch (error) {
+      console.log(error);
       if (error instanceof NotFoundException) throw error;
-      throw new HttpException(`Failed to get orders: ${error.message}`, 500);
+      throw new HttpException('Failed to create order', 500);
     }
-  }
-
-  async confirmOrder(order_id: string, deliver: Types.ObjectId) {
-    try {
-      const isDeliverExist = await this.userService.findUserById(deliver);
-      if (!isDeliverExist && !deliver)
-        throw new NotFoundException('Deliver not found');
-
-      const order = await this.orderModel.findByIdAndUpdate(
-        order_id,
-        { deliver, status: OrderStatus.CONFIRMED },
-        { new: true },
-      );
-      if (!order) throw new NotFoundException('Order not found');
-
-      return { success: true, message: 'order successfully confirmed' };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new HttpException(`Failed to confirm order: ${error.message}`, 500);
-    }
-  }
-
-  async completeOrder(order_id: string) {
-    try {
-      const order = await this.orderModel.findByIdAndUpdate(
-        order_id,
-        { status: OrderStatus.COMPLETED },
-        { new: true },
-      );
-
-      if (!order) throw new NotFoundException('Order not found');
-
-      return { success: true, message: 'order successfully completed' };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new HttpException(
-        `Failed to complete order: ${error.message}`,
-        500,
-      );
-    }
-  }
-
-  async cancelOrder(order_id: string) {
-    try {
-      const order = await this.orderModel.findByIdAndUpdate(
-        order_id,
-        { status: OrderStatus.CANCELLED },
-        { new: true },
-      );
-
-      if (!order) throw new NotFoundException('Order not found');
-      return { success: true, message: 'order cancelled' };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new HttpException(`Failed to cancel order: ${error.message}`, 500);
-    }
-  }
-
-  async delete(order_id: string) {
-    try {
-      const order = await this.orderModel.findByIdAndDelete(order_id);
-      if (!order) throw new NotFoundException('Order not found');
-
-      return { success: true, message: 'order deleted' };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new HttpException(`Failed to delete order: ${error.message}`, 500);
-    }
-  }
-
-  async generateUniqueOrderNumber(): Promise<string> {
-    let orderNumber: string;
-    let isUnique = false;
-
-    while (!isUnique) {
-      orderNumber = Math.floor(10000000 + Math.random() * 90000000)
-        .toString()
-        .substring(0, 8);
-      const existingOrder = await this.orderModel
-        .findOne({ order_number: orderNumber })
-        .exec();
-      if (!existingOrder) isUnique = true;
-    }
-
-    return orderNumber;
   }
 }
