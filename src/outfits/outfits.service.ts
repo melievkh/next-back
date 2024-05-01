@@ -25,8 +25,8 @@ export class OutfitsService {
     try {
       const { limit = 10, page = 1, code, sizes, colors, brand } = query;
 
-      const productLimit = +limit;
-      const productPage = +page;
+      const outfitLimit = +limit;
+      const outfitPage = +page;
 
       let where: any = additionalWhere;
 
@@ -46,11 +46,11 @@ export class OutfitsService {
       const totalItems = await this.prismaService.outfits.count({ where });
       const outfits = await this.prismaService.outfits.findMany({
         where,
-        take: productLimit,
-        skip: (productPage - 1) * productLimit,
+        take: outfitLimit,
+        skip: (outfitPage - 1) * outfitLimit,
       });
 
-      if (outfits.length === 0 && productPage !== 1) {
+      if (outfits.length === 0 && outfitPage !== 1) {
         throw new NotFoundException('No outfits found on this page');
       }
 

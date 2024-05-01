@@ -22,11 +22,11 @@ import { UpdateOutfitDto } from './dto/update-outfits.dto';
 export class OutfitsController {
   constructor(private readonly outfitsService: OutfitsService) {}
 
-  @Roles(Role.ADMIN)
-  @Get(':all')
-  getAllOutfits(@Query() query: GetAllOutfitsQuery) {
-    return this.outfitsService.getAllOutfits(query);
-  }
+  // @Roles(Role.ADMIN)
+  // @Get(':all')
+  // getAllOutfits(@Query() query: GetAllOutfitsQuery) {
+  //   return this.outfitsService.getAllOutfits(query);
+  // }
 
   @Roles(Role.ADMIN, Role.STORE)
   @Get()

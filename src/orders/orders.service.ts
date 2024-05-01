@@ -44,16 +44,9 @@ export class OrdersService {
       const orderLimit = +limit;
       const orderSkip = (+page - 1) * orderLimit;
 
-      let where: any = { store: { id: store_id } };
-
+      let where: any = { store: { id: store_id }, status };
       if (order_number) {
-        where = {
-          ...where,
-          order_number: { contains: order_number, mode: 'insensitive' },
-        };
-      }
-      if (status) {
-        where = { ...where, status: { contains: status, mode: 'insensitive' } };
+        where = { ...where, order_number: { equals: +order_number } };
       }
 
       const totalItems = await this.prismaService.order.count({ where });
@@ -64,8 +57,6 @@ export class OrdersService {
         skip: orderSkip,
         include: { store: true, order_by: true, order_item: true },
       });
-
-      if (!orders.length) throw new NotFoundException('No orders found');
 
       return { result: orders, count: totalItems };
     } catch (error) {

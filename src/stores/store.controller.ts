@@ -31,7 +31,7 @@ export class StoreController {
     return this.storeService.getStore(id);
   }
 
-  @Roles(Role.STORE)
+  @Roles(Role.STORE, Role.ADMIN)
   @Get('/me')
   getMe(@GetMe() id: string) {
     return this.storeService.getMe(id);
