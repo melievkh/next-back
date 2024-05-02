@@ -6,7 +6,7 @@ export interface GetAllProductsQuery extends Partial<CreateOutfitDto> {
 }
 
 export enum OutfitCategory {
-  CAP = 'cap',
+  CAPS = 'caps',
   PANTS = 'pants',
   SHOES = 'shoes',
   T_SHIRTS = 't_shirts',

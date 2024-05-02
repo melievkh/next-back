@@ -14,12 +14,34 @@ import { Role } from 'src/user/types/user.types';
 export class StoreService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getStores() {
+  async getStores(query: any) {
     try {
-      const stores = await this.prismaService.store.findMany();
-      if (!stores) throw new NotFoundException('No stores found');
+      console.log(query);
+      const { limit = 10, page = 1, storename, available } = query;
 
-      return { result: stores, count: stores.length };
+      let where = {};
+
+      if (storename) {
+        where = {
+          ...where,
+          storename: { contains: storename, mode: 'insensitive' },
+        };
+      }
+      if (available)
+        where = {
+          ...where,
+          available: { equals: available === 'true' ? true : false },
+        };
+
+      const totalItems = await this.prismaService.store.count({ where });
+
+      const stores = await this.prismaService.store.findMany({
+        where,
+        take: +limit,
+        skip: (+page - 1) * +limit,
+      });
+
+      return { result: stores, count: totalItems };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException('Failed to get stores', 500);

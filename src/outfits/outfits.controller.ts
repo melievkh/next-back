@@ -34,6 +34,7 @@ export class OutfitsController {
     @GetMe() store_id: string,
     @Query() query: GetStoreOutfitsQuery,
   ) {
+    console.log(query);
     return this.outfitsService.getStoreOutfits(store_id, query);
   }
 

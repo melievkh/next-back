@@ -23,7 +23,15 @@ export class OutfitsService {
 
   private async getFilteredOutfits(query: any, additionalWhere: any) {
     try {
-      const { limit = 10, page = 1, code, sizes, colors, brand } = query;
+      const {
+        limit = 10,
+        page = 1,
+        code,
+        sizes,
+        colors,
+        brand,
+        category,
+      } = query;
 
       const outfitLimit = +limit;
       const outfitPage = +page;
@@ -41,6 +49,9 @@ export class OutfitsService {
       }
       if (brand) {
         where = { ...where, brand: { contains: brand, mode: 'insensitive' } };
+      }
+      if (category) {
+        where = { ...where, category: { equals: category } };
       }
 
       const totalItems = await this.prismaService.outfits.count({ where });
@@ -66,7 +77,6 @@ export class OutfitsService {
         createOutfitDto.code,
         store_id,
       );
-      console.log(existingOutfit);
       if (existingOutfit)
         throw new BadRequestException('Outfit already exists with this code');
 
@@ -83,7 +93,6 @@ export class OutfitsService {
 
       return { message: 'Outfit created successfully', success: true };
     } catch (error) {
-      console.log(error);
       if (error instanceof BadRequestException) throw error;
       throw new HttpException('Failed to create outfit', 500);
     }

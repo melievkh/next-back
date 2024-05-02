@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { StoreService } from './store.service';
@@ -22,8 +23,8 @@ export class StoreController {
   constructor(private readonly storeService: StoreService) {}
 
   @Get()
-  getStores() {
-    return this.storeService.getStores();
+  getStores(@Query() query: any) {
+    return this.storeService.getStores(query);
   }
 
   @Get('/one/:id')

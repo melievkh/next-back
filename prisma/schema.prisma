@@ -116,7 +116,7 @@ enum store_type {
 }
 
 enum outfits_category {
-  cap
+  caps
   pants
   shoes
   sneakers
