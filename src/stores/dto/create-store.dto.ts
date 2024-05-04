@@ -40,11 +40,14 @@ class CreateStoreDto {
   @IsOptional()
   photo_url?: string;
 
-  @IsArray()
-  @ArrayMinSize(1)
-  @ArrayMaxSize(5)
-  @Matches(/^\+998\d{9}$/, { message: 'Phone number is not valid', each: true })
-  phone_number: string[];
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^\+998\d{9}$/, { message: 'Phone number is not valid' })
+  phone_number1: string;
+
+  @IsOptional()
+  @Matches(/^\+998\d{9}$/, { message: 'Phone number is not valid' })
+  phone_number2: string;
 
   @IsEnum(StoreRole)
   role: StoreRole = StoreRole.STORE;

@@ -10,6 +10,7 @@ export enum OutfitCategory {
   PANTS = 'pants',
   SHOES = 'shoes',
   T_SHIRTS = 't_shirts',
+  SNEAKERS = 'sneakers',
   OTHER = 'other',
 }
 

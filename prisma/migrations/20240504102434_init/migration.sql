@@ -8,7 +8,7 @@ CREATE TYPE "store_role" AS ENUM ('admin', 'store');
 CREATE TYPE "store_type" AS ENUM ('online', 'physical');
 
 -- CreateEnum
-CREATE TYPE "outfits_category" AS ENUM ('cap', 'pants', 'shoes', 'sneakers', 't_shirts', 'other');
+CREATE TYPE "outfits_category" AS ENUM ('caps', 'pants', 'shoes', 'sneakers', 't_shirts', 'other');
 
 -- CreateEnum
 CREATE TYPE "order_status" AS ENUM ('accepted', 'cancelled', 'completed', 'pending');
@@ -22,7 +22,8 @@ CREATE TABLE "store" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "photo_url" VARCHAR(250),
-    "phone_number" TEXT[],
+    "phone_number1" TEXT NOT NULL,
+    "phone_number2" TEXT,
     "role" "store_role" NOT NULL DEFAULT 'store',
     "storename" VARCHAR(250) NOT NULL,
     "type" "store_type" NOT NULL DEFAULT 'online',
@@ -69,8 +70,10 @@ CREATE TABLE "order" (
     "status" "order_status" NOT NULL DEFAULT 'pending',
     "order_item_details" TEXT NOT NULL,
     "address" TEXT NOT NULL,
-    "latitude" INTEGER NOT NULL,
-    "longitude" INTEGER NOT NULL,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
+    "total_price" DOUBLE PRECISION NOT NULL,
+    "quantity" INTEGER NOT NULL DEFAULT 1,
     "order_item_id" TEXT NOT NULL,
     "store_id" TEXT NOT NULL,
     "order_by_id" TEXT NOT NULL,
@@ -85,8 +88,8 @@ CREATE TABLE "address" (
     "country" VARCHAR(100),
     "description" VARCHAR(250),
     "district" VARCHAR(100),
-    "latitude" INTEGER NOT NULL,
-    "longitude" INTEGER NOT NULL,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
     "street" VARCHAR(100),
 
     CONSTRAINT "address_pkey" PRIMARY KEY ("id")

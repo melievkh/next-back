@@ -10,17 +10,18 @@ datasource db {
 // MODELS
 
 model store {
-  id           String           @id @default(uuid())
-  available    Boolean          @default(true)
-  category     store_category[]
-  created_at   DateTime         @default(now())
-  email        String           @unique
-  password     String
-  photo_url    String?          @db.VarChar(250)
-  phone_number String[]
-  role         store_role       @default(store)
-  storename    String           @db.VarChar(250)
-  type         store_type       @default(online)
+  id            String           @id @default(uuid())
+  available     Boolean          @default(true)
+  category      store_category[]
+  created_at    DateTime         @default(now())
+  email         String           @unique
+  password      String
+  photo_url     String?          @db.VarChar(250)
+  phone_number1 String
+  phone_number2 String?
+  role          store_role       @default(store)
+  storename     String           @db.VarChar(250)
+  type          store_type       @default(online)
 
   address_id String?
   address    address?  @relation(fields: [address_id], references: [id])
@@ -71,8 +72,10 @@ model order {
   status             order_status @default(pending)
   order_item_details String       @db.Text()
   address            String       @db.Text()
-  latitude           Int
-  longitude          Int
+  latitude           Float
+  longitude          Float
+  total_price        Float
+  quantity           Int          @default(1)
 
   order_item_id String
   order_item    outfits @relation(fields: [order_item_id], references: [id])
@@ -91,8 +94,8 @@ model address {
   country     String? @db.VarChar(100)
   description String? @db.VarChar(250)
   district    String? @db.VarChar(100)
-  latitude    Int
-  longitude   Int
+  latitude    Float
+  longitude   Float
   street      String? @db.VarChar(100)
   store       store[]
   users       users[]

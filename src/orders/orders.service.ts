@@ -14,17 +14,20 @@ export class OrdersService {
 
   async createOrder(order_by_id: string, createOrderDto: CreateOrderDto) {
     try {
-      const { product_code, store_id, ...rest } = createOrderDto;
+      const { product_code, store_id, quantity = 1, ...rest } = createOrderDto;
       const product = await this.outfitService.getOutfitByCode(
         product_code,
         store_id,
       );
       if (!product) throw new NotFoundException('product not found');
+      const total_price = product.price * quantity;
 
       await this.prismaService.order.create({
         data: {
-          order_by_id,
+          order_by_id: '7c523637-48cc-4802-bbc8-daf4bae06886',
           order_item_id: product.id,
+          quantity,
+          total_price,
           store_id,
           ...rest,
         },
