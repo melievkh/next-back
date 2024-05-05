@@ -147,6 +147,31 @@ export class OutfitsService {
     }
   }
 
+  async deleteOutfitImage(
+    store_id: string,
+    outfit_id: string,
+    image_url: string,
+  ) {
+    try {
+      const outfit = await this.getStoreOutfitById(outfit_id, store_id);
+      if (!outfit) throw new NotFoundException('Outfit not found');
+
+      const index = outfit.image_urls.indexOf(image_url);
+      if (index === -1) throw new NotFoundException('Image not found');
+
+      outfit.image_urls.splice(index, 1);
+      await this.prismaService.outfits.update({
+        where: { id: outfit_id },
+        data: { image_urls: outfit.image_urls },
+      });
+
+      return { message: 'Image deleted successfully', success: true };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException('Failed to delete image', 500);
+    }
+  }
+
   async getStoreOutfitById(id: string, store_id: string) {
     const outfit = await this.prismaService.outfits.findFirst({
       where: { id, store: { id: store_id } },

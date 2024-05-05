@@ -34,7 +34,6 @@ export class FileUploadService {
         return `https://${bucket}.s3.${this.s3Region}.amazonaws.com/${filename}`;
       }
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException('Failed to upload image');
     }
   }

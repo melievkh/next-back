@@ -15,6 +15,7 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
 import { GetMe, Roles } from 'src/auth/decorators';
 import { Role } from 'src/user/types/user.types';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
 @Roles(Role.ADMIN)
@@ -43,6 +44,14 @@ export class StoreController {
     return this.storeService.createStore(createStoreDto);
   }
 
+  @Patch('change-password/:id')
+  changePassword(
+    @Param('id') store_id: string,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    return this.storeService.changePassword(store_id, changePasswordDto);
+  }
+
   @Roles(Role.STORE)
   @Patch('/:id')
   updateStore(@Param('id') id: string, @Body() updateStoreDto: UpdateStoreDto) {
@@ -51,6 +60,6 @@ export class StoreController {
 
   @Delete('/:id')
   removeStore(@Param('id') id: string) {
-    return this.storeService.removeStore(id);
+    return this.storeService.deleteStore(id);
   }
 }

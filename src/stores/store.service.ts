@@ -9,6 +9,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import CreateStoreDto from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { Role } from 'src/user/types/user.types';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class StoreService {
@@ -129,13 +130,46 @@ export class StoreService {
     }
   }
 
-  async removeStore(id: string) {
+  async changePassword(store_id: string, changePasswordDto: ChangePasswordDto) {
+    try {
+      const store = await this.getStoreById(store_id);
+      if (!store) throw new NotFoundException('Store not found');
+
+      const isMatch = await bcrypt.compare(
+        changePasswordDto.oldPassword,
+        store.password,
+      );
+      if (!isMatch)
+        throw new BadRequestException('Old password does not match');
+
+      const hashedPassword = await bcrypt.hash(
+        changePasswordDto.newPassword,
+        10,
+      );
+
+      await this.prismaService.store.update({
+        where: { id: store_id },
+        data: { password: hashedPassword },
+        select: {
+          password: true,
+        },
+      });
+
+      return { message: 'password changed successfully', success: true };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      if (error instanceof BadRequestException) throw error;
+      throw new HttpException('Failed to change password', 500);
+    }
+  }
+
+  async deleteStore(id: string) {
     try {
       const store = await this.getStoreById(id);
       if (!store) throw new NotFoundException('Store not found');
 
       await this.prismaService.store.delete({ where: { id } });
-      return { success: true };
+      return { message: 'store deleted!', success: true };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new HttpException('Failed to delete store', 500);

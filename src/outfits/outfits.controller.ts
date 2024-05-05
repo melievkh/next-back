@@ -18,17 +18,17 @@ import { GetAllOutfitsQuery, GetStoreOutfitsQuery } from './types/outfit.types';
 import { UpdateOutfitDto } from './dto/update-outfits.dto';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
+@Roles(Role.ADMIN, Role.STORE)
 @Controller('outfits')
 export class OutfitsController {
   constructor(private readonly outfitsService: OutfitsService) {}
 
-  // @Roles(Role.ADMIN)
-  // @Get(':all')
-  // getAllOutfits(@Query() query: GetAllOutfitsQuery) {
-  //   return this.outfitsService.getAllOutfits(query);
-  // }
+  @Roles(Role.ADMIN)
+  @Get(':all')
+  getAllOutfits(@Query() query: GetAllOutfitsQuery) {
+    return this.outfitsService.getAllOutfits(query);
+  }
 
-  @Roles(Role.ADMIN, Role.STORE)
   @Get()
   getStoreOutfits(
     @GetMe() store_id: string,
@@ -38,13 +38,11 @@ export class OutfitsController {
     return this.outfitsService.getStoreOutfits(store_id, query);
   }
 
-  @Roles(Role.ADMIN, Role.STORE)
   @Post()
   create(@GetMe() store_id: string, @Body() createOutfitDto: CreateOutfitDto) {
     return this.outfitsService.createOutfit(store_id, createOutfitDto);
   }
 
-  @Roles(Role.STORE)
   @Patch(':id')
   update(
     @Param('id') outfit_id: string,
@@ -58,9 +56,20 @@ export class OutfitsController {
     );
   }
 
-  @Roles(Role.STORE)
   @Post('delete')
   delete(@Body() outfit_ids: string[], @GetMe() store_id: string) {
     return this.outfitsService.deleteOutfit(outfit_ids, store_id);
+  }
+
+  @Patch('delete-image')
+  deleteOutfitImage(
+    @Body()
+    { store_id, outfit_id, image_url }: any,
+  ) {
+    return this.outfitsService.deleteOutfitImage(
+      store_id,
+      outfit_id,
+      image_url,
+    );
   }
 }
