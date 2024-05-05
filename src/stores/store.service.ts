@@ -21,7 +21,7 @@ export class StoreService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  async getStores(query: any) {
+  async getStores(query: any, admin_id: string) {
     try {
       const cacheKey = JSON.stringify(query);
 
@@ -30,7 +30,7 @@ export class StoreService {
 
       const { limit = 10, page = 1, storename, available } = query;
 
-      let where = {};
+      let where: any = {};
 
       if (storename) {
         where = {
@@ -43,6 +43,8 @@ export class StoreService {
           ...where,
           available: { equals: available === 'true' ? true : false },
         };
+
+      where.id = { not: { equals: admin_id } };
 
       const totalItems = await this.prismaService.store.count({ where });
 

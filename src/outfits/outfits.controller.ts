@@ -34,8 +34,12 @@ export class OutfitsController {
     @GetMe() store_id: string,
     @Query() query: GetStoreOutfitsQuery,
   ) {
-    console.log(query);
     return this.outfitsService.getStoreOutfits(store_id, query);
+  }
+
+  @Get('/one/:id')
+  getStoreOutfitById(@Param('id') id: string) {
+    return this.outfitsService.getSingleOutfitById(id);
   }
 
   @Post()
@@ -61,7 +65,7 @@ export class OutfitsController {
     return this.outfitsService.deleteOutfit(outfit_ids, store_id);
   }
 
-  @Patch('delete-image')
+  @Post('delete-image')
   deleteOutfitImage(
     @Body()
     { store_id, outfit_id, image_url }: any,

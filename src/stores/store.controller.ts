@@ -13,7 +13,7 @@ import { StoreService } from './store.service';
 import CreateStoreDto from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
-import { Roles } from 'src/auth/decorators';
+import { GetMe, Roles } from 'src/auth/decorators';
 import { Role } from 'src/user/types/user.types';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
@@ -25,8 +25,8 @@ export class StoreController {
 
   @Roles(Role.ADMIN)
   @Get()
-  getStores(@Query() query: any) {
-    return this.storeService.getStores(query);
+  getStores(@Query() query: any, @GetMe() admin_id: string) {
+    return this.storeService.getStores(query, admin_id);
   }
 
   @Get(':id')
@@ -53,7 +53,7 @@ export class StoreController {
   }
 
   @Delete('/:id')
-  removeStore(@Param('id') id: string) {
+  deleteStore(@Param('id') id: string) {
     return this.storeService.deleteStore(id);
   }
 }

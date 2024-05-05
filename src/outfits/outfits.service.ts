@@ -71,6 +71,20 @@ export class OutfitsService {
     }
   }
 
+  async getSingleOutfitById(id: string) {
+    try {
+      const outfit = await this.prismaService.outfits.findUnique({
+        where: { id },
+      });
+      if (!outfit) throw new NotFoundException('Outfit not found');
+
+      return { result: outfit, success: true };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new HttpException('Failed to get outfit', 500);
+    }
+  }
+
   async createOutfit(store_id: string, createOutfitDto: CreateOutfitDto) {
     try {
       const existingOutfit = await this.getOutfitByCode(
@@ -162,7 +176,7 @@ export class OutfitsService {
       outfit.image_urls.splice(index, 1);
       await this.prismaService.outfits.update({
         where: { id: outfit_id },
-        data: { image_urls: outfit.image_urls },
+        data: { image_urls: { set: outfit.image_urls } },
       });
 
       return { message: 'Image deleted successfully', success: true };
