@@ -2,6 +2,7 @@ import * as bcrypt from 'bcrypt';
 import {
   BadRequestException,
   HttpException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,14 +11,23 @@ import CreateStoreDto from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { Role } from 'src/user/types/user.types';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class StoreService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   async getStores(query: any) {
     try {
-      console.log(query);
+      const cacheKey = JSON.stringify(query);
+
+      const cachedData = await this.cacheManager.get(cacheKey);
+      if (cachedData) return cachedData;
+
       const { limit = 10, page = 1, storename, available } = query;
 
       let where = {};
@@ -42,6 +52,11 @@ export class StoreService {
         skip: (+page - 1) * +limit,
       });
 
+      await this.cacheManager.set(cacheKey, {
+        result: stores,
+        count: totalItems,
+      });
+
       return { result: stores, count: totalItems };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
@@ -54,18 +69,6 @@ export class StoreService {
     if (!store) throw new NotFoundException('Store not found');
 
     return { result: store, success: true };
-  }
-
-  async getMe(id: string) {
-    try {
-      const store = await this.getStoreById(id);
-      if (!store) throw new NotFoundException('Store not found');
-
-      return { result: store, success: true };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new HttpException('Failed to get store', 500);
-    }
   }
 
   async getStoreById(id: string) {

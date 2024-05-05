@@ -1,3 +1,4 @@
+import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 
@@ -8,6 +9,7 @@ import { OutfitsModule } from './outfits/outfits.module';
 import { StoreModule } from './stores/store.module';
 import { UserModule } from './user/user.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { redisConfig } from './config/redis.config';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
       isGlobal: true,
       load: [appConfig],
     }),
+    CacheModule.register(redisConfig),
     OutfitsModule,
     OrdersModule,
     StoreModule,

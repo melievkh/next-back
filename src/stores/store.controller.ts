@@ -13,30 +13,25 @@ import { StoreService } from './store.service';
 import CreateStoreDto from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
-import { GetMe, Roles } from 'src/auth/decorators';
+import { Roles } from 'src/auth/decorators';
 import { Role } from 'src/user/types/user.types';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
 @UseGuards(AccessTokenGuard, RolesGuard)
-@Roles(Role.ADMIN)
+@Roles(Role.ADMIN, Role.STORE)
 @Controller('store')
 export class StoreController {
   constructor(private readonly storeService: StoreService) {}
 
+  @Roles(Role.ADMIN)
   @Get()
   getStores(@Query() query: any) {
     return this.storeService.getStores(query);
   }
 
-  @Get('/one/:id')
+  @Get(':id')
   getStore(@Param('id') id: string) {
     return this.storeService.getStore(id);
-  }
-
-  @Roles(Role.STORE, Role.ADMIN)
-  @Get('/me')
-  getMe(@GetMe() id: string) {
-    return this.storeService.getMe(id);
   }
 
   @Post()
@@ -52,7 +47,6 @@ export class StoreController {
     return this.storeService.changePassword(store_id, changePasswordDto);
   }
 
-  @Roles(Role.STORE)
   @Patch('/:id')
   updateStore(@Param('id') id: string, @Body() updateStoreDto: UpdateStoreDto) {
     return this.storeService.updateStore(id, updateStoreDto);

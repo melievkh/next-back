@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { AccessTokenGuard, RolesGuard } from 'src/auth/guards';
@@ -13,7 +14,9 @@ import { GetMe, Roles } from 'src/auth/decorators';
 import { Role } from './types/user.types';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @UseGuards(RolesGuard)
 @Controller('user')
 export class UserController {
