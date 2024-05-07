@@ -1,0 +1,335 @@
+[
+    {
+      "id": "df319ea0-2496-4661-a3dc-f15a0ca2e84c",
+      "brand": "Nike",
+      "category": "t_shirts",
+      "colors": ["white", "black", "gray"],
+      "code": "3141",
+      "description": null,
+      "image_urls": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLGC7dFfAUOYPYiXHAu1_7YJtNW-bEpe-2aA&usqp=CAU",
+        "https://www.topsandbottomsusa.com/cdn/shop/files/86D906-001_1__png.jpg?v=1696113153&width=2048",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7qh8Arn1sw_zA4JuuWlOz9yerhJycG0ia_OOVKzTiGXn38foKqinpPPqbKez_CfE0HeQ&usqp=CAU"
+      ],
+      "image_main": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLGC7dFfAUOYPYiXHAu1_7YJtNW-bEpe-2aA&usqp=CAU",
+      "name": "Nike T-shirt",
+      "price": 340000,
+      "sizes": ["M", "S", "X", "XL"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "a639746d-7df7-4ee1-bab7-47f622a1746c",
+      "brand": "Nike",
+      "category": "t_shirts",
+      "colors": ["white", "black", "gray"],
+      "code": "3141",
+      "description": null,
+      "image_urls": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO6DRcyan6cwDPCAss8Nyq2Zat37WrN99kZdp7itmiFF8xKp48qe5dXRn--W3aPRGzcfk&usqp=CAU",
+        "https://images.tokopedia.net/img/cache/700/hDjmkQ/2022/4/5/585e9efe-c4ad-48ba-a610-d084accd83d4.jpg"
+      ],
+      "image_main": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO6DRcyan6cwDPCAss8Nyq2Zat37WrN99kZdp7itmiFF8xKp48qe5dXRn--W3aPRGzcfk&usqp=CAU",
+      "name": "Nike T-shirt",
+      "price": 180000,
+      "sizes": ["M", "S", "X", "XL"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "49b02b14-1e7a-4b23-b3a0-34af3ecf1bb0",
+      "brand": "Puma",
+      "category": "caps",
+      "colors": ["black", "white", "pink", "blue"],
+      "code": "1357",
+      "description": null,
+      "image_urls": [
+          "https://eu-images.contentstack.com/v3/assets/blt7dcd2cfbc90d45de/blt74086f9b89cb9448/64819127131ecf31edf40d04/28716.jpg?format=pjpg&auto=webp&quality=75%2C90&width=3840"   
+     ],
+      "image_main": "https://eu-images.contentstack.com/v3/assets/blt7dcd2cfbc90d45de/blt74086f9b89cb9448/64819127131ecf31edf40d04/28716.jpg?format=pjpg&auto=webp&quality=75%2C90&width=3840",
+      "name": "Baseball cap",
+      "price": 45000,
+      "sizes": ["S", "M", "L"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "d14c0323-b41b-484e-8dab-11f6478ae1b7",
+      "brand": "Under Armour",
+      "category": "pants",
+      "colors": ["black", "gray", "navy", "green"],
+      "code": "9823",
+      "description": null,
+      "image_urls": [
+        "https://i.ebayimg.com/images/g/cdYAAOSwUNpkEuzl/s-l1200.webp"
+      ],
+      "image_main": "https://i.ebayimg.com/images/g/cdYAAOSwUNpkEuzl/s-l1200.webp",
+      "name": "Jogger pants",
+      "price": 150000,
+      "sizes": ["M", "L", "XL"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "b4b6ee7c-c034-48b8-89f6-5a8a0532cf19",
+      "brand": "New Balance",
+      "category": "sneakers",
+      "colors": ["white", "gray", "blue", "pink"],
+      "code": "7501",
+      "description": null,
+      "image_urls": [
+        "https://nb.scene7.com/is/image/NB/mr530sg_nb_02_i?$pdpflexf2$&wid=440&hei=440",
+        "https://ph-live-01.slatic.net/p/0603dd28304920f5d0eaa3a90828df03.jpg"
+      ],
+      "image_main": "https://nb.scene7.com/is/image/NB/mr530sg_nb_02_i?$pdpflexf2$&wid=440&hei=440",
+      "name": "Casual shoes",
+      "price": 180000,
+      "sizes": ["39", "40", "41"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "f3505459-d3e8-4d9e-8d43-4a8a6e8ad18f",
+      "brand": "Reebok",
+      "category": "sneakers",
+      "colors": ["black", "white", "gray", "blue"],
+      "code": "5246",
+      "description": null,
+      "image_urls": [
+        "https://reebok.bynder.com/transform/22a2be53-79cb-454d-8618-18f693ff3569/100008491_SLC_eCom-tif?io=transform:fit,width:500&quality=100",
+        "https://static.supersports.co.th/REEBOK-RE099SH695DNTH-SSP65743379-1?$JPEG$&wid=550"
+      ],
+      "image_main": "https://reebok.bynder.com/transform/22a2be53-79cb-454d-8618-18f693ff3569/100008491_SLC_eCom-tif?io=transform:fit,width:500&quality=100",
+      "name": "Reebook sneakers",
+      "price": 80000,
+      "sizes": ["S", "M", "L"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "cb5cbe18-9d48-4e88-b015-d63b06fb5ed5",
+      "brand": "ASICS",
+      "category": "sneakers",
+      "colors": ["black", "white", "red", "yellow"],
+      "code": "9365",
+      "description": null,
+      "image_urls": [
+        "https://cdn-images.farfetch-contents.com/20/93/64/01/20936401_50886458_600.jpg"
+      ],
+      "image_main": "https://cdn-images.farfetch-contents.com/20/93/64/01/20936401_50886458_600.jpg",
+      "name": "Running shoes",
+      "price": 220000,
+      "sizes": ["40", "41", "42"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "184e0a8d-bd83-4cb4-b47b-1d3338fa9722",
+      "brand": "Converse",
+      "category": "sneakers",
+      "colors": ["black", "white", "blue", "red"],
+      "code": "3719",
+      "description": null,
+      "image_urls": [
+        "https://cms.brnstc.de/product_images/680x930_retina/cpro/media/images/product/22/7/100090310513000_0_1658411044999.jpg"
+      ],
+      "image_main": "https://cms.brnstc.de/product_images/680x930_retina/cpro/media/images/product/22/7/100090310513000_0_1658411044999.jpg",
+      "name": "Classic sneakers",
+      "price": 120000,
+      "sizes": ["39", "40", "41"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "c442b5cb-61ad-413e-8d0c-179b63b1df5a",
+      "brand": "Vans",
+      "category": "sneakers",
+      "colors": ["black", "white", "gray", "pink"],
+      "code": "8113",
+      "description": null,
+      "image_urls": [
+        "https://i.ebayimg.com/images/g/24kAAOSw0fBjOKj1/s-l1200.jpg"
+      ],
+      "image_main": "https://i.ebayimg.com/images/g/24kAAOSw0fBjOKj1/s-l1200.jpg",
+      "name": "Skate sneakers",
+      "price": 90000,
+      "sizes": ["40", "41", "42"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+    {
+      "id": "07f18b7d-b2b4-4bb8-a1a0-cbc02c9161a5",
+      "brand": "Fila",
+      "category": "pants",
+      "colors": ["black", "gray", "navy", "green"],
+      "code": "6429",
+      "description": null,
+      "image_urls": [
+        "https://fila.com.au/cdn/shop/products/ACP11132_777_M_7_1600x2000.jpg?v=1638850307"
+      ],
+      "image_main": "https://fila.com.au/cdn/shop/products/ACP11132_777_M_7_1600x2000.jpg?v=1638850307",
+      "name": "Track pants",
+      "price": 95000,
+      "sizes": ["S", "M", "L"],
+      "store_id": "f12d893e-1122-4b75-ac80-9f109b776870"
+    },
+
+   
+    {
+      "id": "d1319ea0-2496-4661-a3dc-f15a0ca2e84c",
+      "brand": "Nike",
+      "category": "t_shirts",
+      "colors": ["white", "black", "gray"],
+      "code": "3141",
+      "description": null,
+      "image_urls": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLGC7dFfAUOYPYiXHAu1_7YJtNW-bEpe-2aA&usqp=CAU",
+        "https://www.topsandbottomsusa.com/cdn/shop/files/86D906-001_1__png.jpg?v=1696113153&width=2048",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7qh8Arn1sw_zA4JuuWlOz9yerhJycG0ia_OOVKzTiGXn38foKqinpPPqbKez_CfE0HeQ&usqp=CAU"
+      ],
+      "image_main": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLGC7dFfAUOYPYiXHAu1_7YJtNW-bEpe-2aA&usqp=CAU",
+      "name": "Nike T-shirt",
+      "price": 340000,
+      "sizes": ["M", "S", "X", "XL"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "a239746d-7df7-4ee1-bab7-47f622a1746c",
+      "brand": "Nike",
+      "category": "t_shirts",
+      "colors": ["white", "black", "gray"],
+      "code": "3141",
+      "description": null,
+      "image_urls": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO6DRcyan6cwDPCAss8Nyq2Zat37WrN99kZdp7itmiFF8xKp48qe5dXRn--W3aPRGzcfk&usqp=CAU",
+        "https://images.tokopedia.net/img/cache/700/hDjmkQ/2022/4/5/585e9efe-c4ad-48ba-a610-d084accd83d4.jpg"
+      ],
+      "image_main": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO6DRcyan6cwDPCAss8Nyq2Zat37WrN99kZdp7itmiFF8xKp48qe5dXRn--W3aPRGzcfk&usqp=CAU",
+      "name": "Nike T-shirt",
+      "price": 180000,
+      "sizes": ["M", "S", "X", "XL"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "42b02b14-1e7a-4b23-b3a0-34af3ecf1bb0",
+      "brand": "Puma",
+      "category": "caps",
+      "colors": ["black", "white", "pink", "blue"],
+      "code": "1357",
+      "description": null,
+      "image_urls": [
+        "https://reebok.bynder.com/transform/22a2be53-79cb-454d-8618-18f693ff3569/100008491_SLC_eCom-tif?io=transform:fit,width:500&quality=100"
+      ],
+      "image_main": "https://reebok.bynder.com/transform/22a2be53-79cb-454d-8618-18f693ff3569/100008491_SLC_eCom-tif?io=transform:fit,width:500&quality=100",
+      "name": "Baseball cap",
+      "price": 45000,
+      "sizes": ["S", "M", "L"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "d24c0323-b41b-484e-8dab-11f6478ae1b7",
+      "brand": "Under Armour",
+      "category": "pants",
+      "colors": ["black", "gray", "navy", "green"],
+      "code": "9823",
+      "description": null,
+      "image_urls": [
+        "https://www.kickz.com/dw/image/v2/BGQV_PRD/on/demandware.static/-/Sites-kickz-master-catalog/default/dw4948acc6/images/large/new_era-MLB_LOS_ANGELES_DODGERS_LEAGUE_ESSENTIAL_59FIFTY_CAP-black-1.jpg?sw=537&q=95"
+      ],
+      "image_main": "https://www.kickz.com/dw/image/v2/BGQV_PRD/on/demandware.static/-/Sites-kickz-master-catalog/default/dw4948acc6/images/large/new_era-MLB_LOS_ANGELES_DODGERS_LEAGUE_ESSENTIAL_59FIFTY_CAP-black-1.jpg?sw=537&q=95",
+      "name": "Jogger pants",
+      "price": 150000,
+      "sizes": ["M", "L", "XL"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "b2b6ee7c-c034-48b8-89f6-5a8a0532cf19",
+      "brand": "New Balance",
+      "category": "shoes",
+      "colors": ["white", "gray", "blue", "pink"],
+      "code": "7501",
+      "description": null,
+      "image_urls": [
+        "https://nb.scene7.com/is/image/NB/mr530sg_nb_02_i?$pdpflexf2$&wid=440&hei=440",
+        "https://ph-live-01.slatic.net/p/0603dd28304920f5d0eaa3a90828df03.jpg"
+      ],
+      "image_main": "https://nb.scene7.com/is/image/NB/mr530sg_nb_02_i?$pdpflexf2$&wid=440&hei=440",
+      "name": "Casual shoes",
+      "price": 180000,
+      "sizes": ["39", "40", "41"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "f2505459-d3e8-4d9e-8d43-4a8a6e8ad18f",
+      "brand": "Reebok",
+      "category": "shoes",
+      "colors": ["black", "white", "gray", "blue"],
+      "code": "5246",
+      "description": null,
+      "image_urls": [
+        "https://reebok.bynder.com/transform/22a2be53-79cb-454d-8618-18f693ff3569/100008491_SLC_eCom-tif?io=transform:fit,width:500&quality=100",
+        "https://static.supersports.co.th/REEBOK-RE099SH695DNTH-SSP65743379-1?$JPEG$&wid=550"
+      ],
+      "image_main": "https://reebok.bynder.com/transform/22a2be53-79cb-454d-8618-18f693ff3569/100008491_SLC_eCom-tif?io=transform:fit,width:500&quality=100",
+      "name": "Sports shoes",
+      "price": 80000,
+      "sizes": ["S", "M", "L"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "c25cbe18-9d48-4e88-b015-d63b06fb5ed5",
+      "brand": "ASICS",
+      "category": "sneakers",
+      "colors": ["black", "white", "red", "yellow"],
+      "code": "9365",
+      "description": null,
+      "image_urls": [
+        "https://cdn-images.farfetch-contents.com/20/93/64/01/20936401_50886458_600.jpg"
+      ],
+      "image_main": "https://cdn-images.farfetch-contents.com/20/93/64/01/20936401_50886458_600.jpg",
+      "name": "Running shoes",
+      "price": 220000,
+      "sizes": ["40", "41", "42"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "124e0a8d-bd83-4cb4-b47b-1d3338fa9722",
+      "brand": "Converse",
+      "category": "sneakers",
+      "colors": ["black", "white", "blue", "red"],
+      "code": "3719",
+      "description": null,
+      "image_urls": [
+        "https://cms.brnstc.de/product_images/680x930_retina/cpro/media/images/product/22/7/100090310513000_0_1658411044999.jpg"
+      ],
+      "image_main": "https://cms.brnstc.de/product_images/680x930_retina/cpro/media/images/product/22/7/100090310513000_0_1658411044999.jpg",
+      "name": "Classic sneakers",
+      "price": 120000,
+      "sizes": ["39", "40", "41"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "c242b5cb-61ad-413e-8d0c-179b63b1df5a",
+      "brand": "Vans",
+      "category": "sneakers",
+      "colors": ["black", "white", "gray", "pink"],
+      "code": "8113",
+      "description": null,
+      "image_urls": [
+        "https://i.ebayimg.com/images/g/24kAAOSw0fBjOKj1/s-l1200.jpg"
+      ],
+      "image_main": "https://i.ebayimg.com/images/g/24kAAOSw0fBjOKj1/s-l1200.jpg",
+      "name": "Skate sneakers",
+      "price": 90000,
+      "sizes": ["40", "41", "42"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    },
+    {
+      "id": "02f18b7d-b2b4-4bb8-a1a0-cbc02c9161a5",
+      "brand": "Fila",
+      "category": "pants",
+      "colors": ["black", "gray", "navy", "green"],
+      "code": "6429",
+      "description": null,
+      "image_urls": [
+        "https://fila.com.au/cdn/shop/products/ACP11132_777_M_7_1600x2000.jpg?v=1638850307"
+      ],
+      "image_main": "https://fila.com.au/cdn/shop/products/ACP11132_777_M_7_1600x2000.jpg?v=1638850307",
+      "name": "Track pants",
+      "price": 95000,
+      "sizes": ["S", "M", "L"],
+      "store_id": "e5a4b783-2550-4650-846e-ba927fa2d25f"
+    }
+  ]
+  

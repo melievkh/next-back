@@ -1,0 +1,32 @@
+[
+    {
+      "id": "f12d893e-1122-4b75-ac80-9f109b776870",
+      "available": true,
+      "category": ["outfits"],
+      "created_at": "2024-05-05T09:09:50.062Z",
+      "email": "store1@gmail.com",
+      "password": "Test123)",
+      "photo_url": "https://theme.zdassets.com/theme_assets/11165451/5e7bcd73ddc24953da6800aca6b7da59e0984b51.jpg",
+      "phone_number1": "+998915552588",
+      "phone_number2": "+998932344432",
+      "role": "store",
+      "storename": "Next Online Store",
+      "type": "online",
+      "address_id": null
+    },
+    {
+      "id": "e5a4b783-2550-4650-846e-ba927fa2d25f",
+      "available": true,
+      "category": ["outfits"],
+      "created_at": "2024-05-05T09:09:50.062Z",
+      "email": "store2@gmail.com",
+      "password": "Test123)",
+      "photo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdQvIiw5FR7MP7vi2vjZmPa_vobTVFN1Er-TS7hPAypm6ImRrZjRLpOpq2nRmKuU-iD2Q&usqp=CAU",
+      "phone_number1": "+998913352513",
+      "phone_number2": null,
+      "role": "store",
+      "storename": "Magic Online Store",
+      "type": "online",
+      "address_id": null
+    }
+]

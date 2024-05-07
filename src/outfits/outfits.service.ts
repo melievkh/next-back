@@ -65,6 +65,7 @@ export class OutfitsService {
         throw new NotFoundException('No outfits found on this page');
       }
 
+      console.log(outfits);
       return { result: outfits, count: totalItems };
     } catch (error) {
       throw new HttpException('Failed to get outfits', 500);
@@ -170,6 +171,9 @@ export class OutfitsService {
       const outfit = await this.getStoreOutfitById(outfit_id, store_id);
       if (!outfit) throw new NotFoundException('Outfit not found');
 
+      if (outfit.image_urls.length <= 1)
+        throw new BadRequestException('Outfit must have at least one image');
+
       const index = outfit.image_urls.indexOf(image_url);
       if (index === -1) throw new NotFoundException('Image not found');
 
@@ -181,6 +185,7 @@ export class OutfitsService {
 
       return { message: 'Image deleted successfully', success: true };
     } catch (error) {
+      if (error instanceof BadRequestException) throw error;
       if (error instanceof NotFoundException) throw error;
       throw new HttpException('Failed to delete image', 500);
     }

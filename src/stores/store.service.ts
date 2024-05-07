@@ -176,6 +176,7 @@ export class StoreService {
       await this.prismaService.store.delete({ where: { id } });
       return { message: 'store deleted!', success: true };
     } catch (error) {
+      console.log(error);
       if (error instanceof NotFoundException) throw error;
       throw new HttpException('Failed to delete store', 500);
     }
